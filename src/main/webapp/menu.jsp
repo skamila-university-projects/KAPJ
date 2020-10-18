@@ -1,2 +1,4 @@
-<h1>Menu</h1>
-<a href="/appUsers.html">App user page</a>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+
+<h1><spring:message code="label.menu"/></h1>
+<a href="/appUsers.html"><spring:message code="label.addAppUser"/></a>
