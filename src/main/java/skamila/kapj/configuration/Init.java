@@ -10,7 +10,7 @@ import javax.servlet.Filter;
 public class Init extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{MyConfiguration.class};
+        return new Class[]{MyConfiguration.class, HibernatePersistenceConfiguration.class};
     }
 
     protected Class<?>[] getServletConfigClasses() {
