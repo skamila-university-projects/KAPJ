@@ -3,6 +3,7 @@ package skamila.kapj.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import skamila.kapj.domain.AppUser;
 import skamila.kapj.service.AppUserService;
+import skamila.kapj.validator.AppUserValidator;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 public class AppUserController {
 
     private AppUserService appUserService;
+
+    private AppUserValidator appUserValidator = new AppUserValidator();
 
     @Autowired
     public AppUserController(AppUserService appUserService) {
@@ -32,7 +36,7 @@ public class AppUserController {
             model.addAttribute("appUser", new AppUser());
         }
         model.addAttribute("appUserList", appUserService.listAppUser());
-        return"appUser";
+        return "appUser";
     }
 
     @RequestMapping("/deleteUser/{appUserId}")
@@ -42,16 +46,17 @@ public class AppUserController {
     }
 
     @RequestMapping(value = "/addAppUser", method = RequestMethod.POST)
-    public String addAppUser(@ModelAttribute("appUser") AppUser appUser) {
-        System.out.println("First Name: " + appUser.getFirstName() + "\nLast name: " + appUser.getLastName()
-                + "\nTel.: " + appUser.getTelephone() + "\nEmail: " + appUser.getEmail());
-
-        if (appUser.getId() == 0) {
-            appUserService.addAppUser(appUser);
-        } else {
-            appUserService.editAppUser(appUser);
+    public String addAppUser(@ModelAttribute("appUser") AppUser appUser, BindingResult result, Model model) {
+        appUserValidator.validate(appUser, result);
+        if (result.getErrorCount() == 0) {
+            if (appUser.getId() == 0) {
+                appUserService.addAppUser(appUser);
+            } else {
+                appUserService.editAppUser(appUser);
+            }
+            return "redirect:appUsers.html";
         }
-
-        return "redirect:appUsers.html";
+        model.addAttribute("appUserList", appUserService.listAppUser());
+        return "appUser";
     }
 }
