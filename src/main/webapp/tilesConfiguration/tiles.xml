@@ -29,4 +29,19 @@
         <put-attribute name="body" value="/hello.jsp"/>
     </definition>
 
+    <definition name="exampleOne" extends="base.definition">
+        <put-attribute name="title" value="ExampleOne"/>
+        <put-attribute name="body" value="/exampleOne.jsp"/>
+    </definition>
+
+    <definition name="exampleOne" extends="base.definition">
+        <put-attribute name="title" value="ExampleTwo"/>
+        <put-attribute name="body" value="/exampleTwo.jsp"/>
+    </definition>
+
+    <definition name="exampleOne" extends="base.definition">
+        <put-attribute name="title" value="ExampleOne"/>
+        <put-attribute name="body" value="/exampleThree.jsp"/>
+    </definition>
+
 </tiles-definitions>
