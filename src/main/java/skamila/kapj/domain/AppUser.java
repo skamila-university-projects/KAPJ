@@ -1,6 +1,9 @@
 package skamila.kapj.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "appuser")
@@ -12,13 +15,19 @@ public class AppUser {
 
     private int version;
 
+    @NotNull
+    @Size(min=2, max=30, message = "{error.length.name}")
     @Column(name = "firstName", nullable = false)
     private String firstName;
 
+    @NotNull
+    @Size(min=2, max=30, message = "{error.length.name}")
     private String lastName;
 
+    @NotNull
     private String email;
 
+    @Pattern(regexp = "^\\+[0-9]{1,3}-[0-9]{3}-[0-9]{3}-[0-9]{3}$", message = "{error.telephone.invalid}")
     private String telephone;
 
     public long getId() {

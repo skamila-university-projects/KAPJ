@@ -14,6 +14,7 @@ import skamila.kapj.service.AppUserService;
 import skamila.kapj.validator.AppUserValidator;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @Controller
 public class AppUserController {
@@ -46,7 +47,7 @@ public class AppUserController {
     }
 
     @RequestMapping(value = "/addAppUser", method = RequestMethod.POST)
-    public String addAppUser(@ModelAttribute("appUser") AppUser appUser, BindingResult result, Model model) {
+    public String addAppUser(@Valid @ModelAttribute("appUser") AppUser appUser, BindingResult result, Model model) {
         appUserValidator.validate(appUser, result);
         if (result.getErrorCount() == 0) {
             if (appUser.getId() == 0) {
