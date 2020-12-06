@@ -5,7 +5,8 @@
 </head>
 <body>
 <h3>Hello world!</h3>
-<a href="/appUsers.html">App users page</a>
+<a href="/appUsers.html">App users page</a><br>
+<a href="/addresses.html">Addresses page</a>
 <br/>
 ${serverTime}
 </body>
