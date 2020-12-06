@@ -16,22 +16,22 @@ public class Address {
     private int version;
 
     @NotNull
-//    @Size(min=2, max=20, message = "{error.length.name}")
+    @Size(min=2, max=20, message = "{error.length.name}")
     private String city;
 
     @NotNull
-    @Pattern(regexp = "^[0-9]{2}-[0-9]{3}$", message = "{error.telephone.invalid}")
+    @Pattern(regexp = "^[0-9]{2}-[0-9]{3}$", message = "{error.address.invalid.value}")
     private String postalCode;
 
     @NotNull
-//    @Size(min=2, max=30, message = "{error.length.name}")
+    @Size(min=2, max=30, message = "{error.length.name}")
     private String street;
 
     @NotNull
-//    @Size(min=1, max=5, message = "{error.length.name}")
+    @Pattern(regexp = "^[0-9]+([a-z]|(\\/[0-9]+))?$", message = "{error.address.invalid.value}")
     private String houseNumber;
 
-//    @Size(min=0, max=5, message = "{error.length.name}")
+    @Pattern(regexp = "^([0-9]+([a-z]|(\\/[0-9]+))?)?$", message = "{error.address.invalid.value}")
     private String flatNumber;
 
     public long getId() {

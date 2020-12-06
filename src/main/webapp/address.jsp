@@ -19,22 +19,27 @@
         <tr>
             <td><form:label path="city"><spring:message code="label.address.city"/></form:label></td>
             <td><form:input path="city"/></td>
+            <td><form:errors path="city"/></td>
         </tr>
         <tr>
             <td><form:label path="postalCode"><spring:message code="label.address.postalCode"/></form:label></td>
             <td><form:input path="postalCode"/></td>
+            <td><form:errors path="postalCode"/></td>
         </tr>
         <tr>
             <td><form:label path="street"><spring:message code="label.address.street"/></form:label></td>
             <td><form:input path="street"/></td>
+            <td><form:errors path="street"/></td>
         </tr>
         <tr>
             <td><form:label path="houseNumber"><spring:message code="label.address.houseNumber"/></form:label></td>
             <td><form:input path="houseNumber"/></td>
+            <td><form:errors path="houseNumber"/></td>
         </tr>
         <tr>
             <td><form:label path="flatNumber"><spring:message code="label.address.flatNumber"/></form:label></td>
             <td><form:input path="flatNumber"/></td>
+            <td><form:errors path="flatNumber"/></td>
         </tr>
         <tr>
             <td colspan="2">

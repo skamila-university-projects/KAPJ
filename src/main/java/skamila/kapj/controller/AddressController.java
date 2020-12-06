@@ -3,6 +3,7 @@ package skamila.kapj.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import skamila.kapj.domain.Address;
 import skamila.kapj.service.AddressService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @Controller
 public class AddressController {
@@ -42,14 +44,15 @@ public class AddressController {
     }
 
     @RequestMapping(value = "/addAddress", method = RequestMethod.POST)
-    public String addAddress(@ModelAttribute("address") Address address) {
-
-        if (address.getId() == 0) {
-            addressService.addAddress(address);
-        } else {
-            addressService.editAddress(address);
+    public String addAddress(@Valid @ModelAttribute("address") Address address, BindingResult result) {
+        if (result.getErrorCount() == 0) {
+            if (address.getId() == 0) {
+                addressService.addAddress(address);
+            } else {
+                addressService.editAddress(address);
+            }
+            return "redirect:address.html";
         }
-
-        return "redirect:addresses.html";
+        return "address";
     }
 }

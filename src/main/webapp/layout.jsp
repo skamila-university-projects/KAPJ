@@ -13,8 +13,8 @@
         </td>
     </tr>
     <tr>
-        <td height="200"><tiles:insertAttribute name="menu"/></td>
-        <td width="350"><tiles:insertAttribute name="body"/></td>
+        <td width="150"><tiles:insertAttribute name="menu"/></td>
+        <td width="550"><tiles:insertAttribute name="body"/></td>
     </tr>
     <tr>
         <td height="30" colspan="2"><tiles:insertAttribute name="footer"/>
