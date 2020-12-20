@@ -54,4 +54,9 @@
         <put-attribute name="body" value="/accessDenied.jsp" />
     </definition>
 
+    <definition name="appUserRole" extends="base.definition">
+        <put-attribute name="title" value="AppUserRole" />
+        <put-attribute name="body" value="/appUserRole.jsp" />
+    </definition>
+
 </tiles-definitions>

@@ -7,7 +7,8 @@
 
 <a href="/exampleOne.jsp">Example 1</a><br/>
 <a href="/exampleTwo.jsp">Example 2</a><br/>
-<a href="/exampleThree.jsp">Example 3</a>
+<a href="/exampleThree.jsp">Example 3</a><br/>
+<a href="/appUserRole.html"><spring:message code = "label.role"/></a>
 
 <script>
     function formSubmit() {

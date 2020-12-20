@@ -17,6 +17,23 @@
             <td><form:hidden path="id"/></td>
         </tr>
         <tr>
+            <td><form:label path="login"><spring:message code="label.login"/></form:label></td>
+            <td><form:input path="login"/></td>
+            <td><form:errors path="login"/></td>
+        </tr>
+        <c:if test="${appUser.id==0}">
+        <tr>
+            <td><form:label path="password"><spring:message code="label.password"/></form:label></td>
+            <td><form:input type="password" path="password"/></td>
+            <td><form:errors path="password"/></td>
+        </tr>
+        </c:if>
+        <tr>
+            <td><form:label path="enabled"><spring:message code="label.enabled"/></form:label></td>
+            <td><form:checkbox path="enabled"/></td>
+            <td><form:errors path="enabled"/></td>
+        </tr>
+        <tr>
             <td><form:label path="firstName"><spring:message code="label.firstName"/></form:label></td>
             <td><form:input path="firstName"/></td>
             <td><form:errors path="firstName"/></td>

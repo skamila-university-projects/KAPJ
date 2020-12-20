@@ -51,7 +51,7 @@ public class AddressController {
             } else {
                 addressService.editAddress(address);
             }
-            return "redirect:address.html";
+            return "redirect:addresses.html";
         }
         return "address";
     }
