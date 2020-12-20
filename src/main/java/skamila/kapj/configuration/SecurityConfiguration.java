@@ -13,7 +13,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("admin").password("{noop}admin").roles("ADMIN","USER");
+        auth.inMemoryAuthentication().withUser("admin").password("{noop}admin").roles("ADMIN", "USER");
         auth.inMemoryAuthentication().withUser("kapj").password("{noop}kapj").roles("USER");
         auth.inMemoryAuthentication().withUser("student").password("{noop}student").roles("STUDENT");
     }
@@ -25,6 +25,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/exampleOne*").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
                 .antMatchers("/exampleTwo*").access("hasRole('ROLE_STUDENT')")
                 .antMatchers("/exampleThree*").access("hasRole('ROLE_USER')")
-                .and().formLogin().permitAll(); // with default login page
+                .and().formLogin().loginPage("/login").permitAll() //with custom login page
+                .usernameParameter("login").passwordParameter("password")
+                .failureForwardUrl("/login.html?error")
+                .and().logout().logoutSuccessUrl("/login.html?logout")
+                .and().exceptionHandling().accessDeniedPage("/accessDenied");
+
     }
 }
