@@ -54,6 +54,20 @@
             <td><form:errors path="telephone"/></td>
         </tr>
         <tr>
+            <td><form:label path="pesel.PESEL"><spring:message code="label.pesel"/></form:label></td>
+            <td><form:input path="pesel.PESEL" /></td>
+            <td><form:errors path="pesel"/></td>
+        </tr>
+        <tr>
+            <td><form:label path="address"><spring:message code="label.address"/></form:label></td>
+            <td><form:select path="address">
+                <c:forEach items="${addressesList}" var="address">
+                    <option value="${address.id}" ${address.id == selectedAddress ? 'selected="selected"' : ''}>${address.street}</option>
+                </c:forEach>
+            </form:select></td>
+            <td><form:errors path="address"/></td>
+        </tr>
+        <tr>
             <td colspan="2">
                 <c:if test="${appUser.id==0}">
                     <input type="submit" value="<spring:message code="label.addAppUser"/>"/>

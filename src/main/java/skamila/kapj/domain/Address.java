@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "address")
@@ -33,6 +34,9 @@ public class Address {
 
     @Pattern(regexp = "^([0-9]+([a-z]|(\\/[0-9]+))?)?$", message = "{error.address.invalid.value}")
     private String flatNumber;
+
+    @OneToMany(mappedBy = "address")
+    private List<AppUser> appUserList;
 
     public long getId() {
         return id;

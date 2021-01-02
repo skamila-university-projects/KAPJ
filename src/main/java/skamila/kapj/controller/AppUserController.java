@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import skamila.kapj.domain.AppUser;
+import skamila.kapj.service.AddressService;
 import skamila.kapj.service.AppUserService;
 import skamila.kapj.validator.AppUserValidator;
 
@@ -20,23 +21,29 @@ import javax.validation.Valid;
 public class AppUserController {
 
     private AppUserService appUserService;
-
+    private AddressService addressService;
     private AppUserValidator appUserValidator = new AppUserValidator();
 
     @Autowired
-    public AppUserController(AppUserService appUserService) {
+    public AppUserController(AppUserService appUserService, AddressService addressService) {
         this.appUserService = appUserService;
+        this.addressService = addressService;
     }
 
     @RequestMapping(value = "/appUsers")
     public String showAppUsers(Model model, HttpServletRequest request) {
         int appUserId = ServletRequestUtils.getIntParameter(request, "appUserId", -1);
         if (appUserId > 0) {
-            model.addAttribute("appUser", appUserService.getAppUser(appUserId));
+            AppUser appUser = appUserService.getAppUser(appUserId);
+            appUser.setPassword("");
+            appUser.setAddress(addressService.getAddress(appUserService.getAppUser(appUserId).getAddress().getId()));
+            model.addAttribute("selectedAddress", appUserService.getAppUser(appUserId).getAddress().getId());
+            model.addAttribute("appUser", appUser);
         } else {
             model.addAttribute("appUser", new AppUser());
         }
         model.addAttribute("appUserList", appUserService.listAppUser());
+        model.addAttribute("addressesList", addressService.listAddress());
         return "appUser";
     }
 

@@ -8,7 +8,8 @@ import skamila.kapj.domain.Address;
 
 import java.util.List;
 
-@Service
+@Service("addressService")
+@Transactional
 public class AddressServiceImpl implements AddressService {
 
     private AddressRepository addressRepository;
