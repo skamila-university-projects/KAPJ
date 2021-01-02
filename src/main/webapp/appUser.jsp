@@ -105,6 +105,7 @@
                     <td><a href="appUsers.html?appUserId=${appUser.id}"><span class="material-icons">edit</span></a>
                     </td>
                     <td><a href="deleteUser/${appUser.id}.html"><span class="material-icons">delete</span></a></td>
+                    <td><a href="generatePdf-${appUser.id}"><span class="material-icons">get_app</span></a></td>
                 </tr>
             </c:forEach>
         </table>
