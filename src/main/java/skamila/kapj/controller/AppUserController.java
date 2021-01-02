@@ -13,6 +13,7 @@ import skamila.kapj.domain.AppUser;
 import skamila.kapj.service.AddressService;
 import skamila.kapj.service.AppUserRoleService;
 import skamila.kapj.service.AppUserService;
+import skamila.kapj.service.ReCaptchaService;
 import skamila.kapj.validator.AppUserValidator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,13 +25,15 @@ public class AppUserController {
     private AppUserService appUserService;
     private AddressService addressService;
     private AppUserRoleService appUserRoleService;
+    private ReCaptchaService reCaptchaService;
     private AppUserValidator appUserValidator = new AppUserValidator();
 
     @Autowired
-    public AppUserController(AppUserService appUserService, AddressService addressService, AppUserRoleService appUserRoleService) {
+    public AppUserController(AppUserService appUserService, AddressService addressService, AppUserRoleService appUserRoleService, ReCaptchaService reCaptchaService) {
         this.appUserService = appUserService;
         this.addressService = addressService;
         this.appUserRoleService = appUserRoleService;
+        this.reCaptchaService = reCaptchaService;
     }
 
     @RequestMapping(value = "/appUsers")
@@ -58,9 +61,9 @@ public class AppUserController {
     }
 
     @RequestMapping(value = "/addAppUser", method = RequestMethod.POST)
-    public String addAppUser(@Valid @ModelAttribute("appUser") AppUser appUser, BindingResult result, Model model) {
+    public String addAppUser(@Valid @ModelAttribute("appUser") AppUser appUser, BindingResult result, Model model, HttpServletRequest request) {
         appUserValidator.validate(appUser, result);
-        if (result.getErrorCount() == 0) {
+        if (result.getErrorCount() == 0 && reCaptchaService.verify(request.getParameter("g-recaptcha-response"))) {
             if (appUser.getId() == 0) {
                 appUserService.addAppUser(appUser);
             } else {

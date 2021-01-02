@@ -7,6 +7,8 @@
       rel="stylesheet">
 <head>
     <title><spring:message code="label.appUser"/></title>
+    <!-- Captcha Google -->
+    <script src="https://www.google.com/recaptcha/api.js"></script>
 </head>
 <body>
 <h1><spring:message code="label.appUser"/></h1>
@@ -73,6 +75,11 @@
                 <form:options items="${appUserRoleList}" itemValue="id" itemLabel="role"/>
             </form:select></td>
             <td><form:errors path="appUserRole"/></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div class="g-recaptcha" data-sitekey="6LdB8yIaAAAAACve7JMFskBBWcMNtstxFIV7eQEC"></div>
+            </td>
         </tr>
         <tr>
             <td colspan="2">
