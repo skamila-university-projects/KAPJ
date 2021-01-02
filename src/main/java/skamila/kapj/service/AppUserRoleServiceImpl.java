@@ -7,7 +7,7 @@ import skamila.kapj.domain.AppUserRole;
 
 import java.util.List;
 
-@Service
+@Service("appUserRoleService")
 public class AppUserRoleServiceImpl implements AppUserRoleService {
 
     private AppUserRoleRepository appUserRoleRepository;

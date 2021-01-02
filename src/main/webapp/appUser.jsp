@@ -68,6 +68,13 @@
             <td><form:errors path="address"/></td>
         </tr>
         <tr>
+            <td><form:label path="appUserRole"><spring:message code="label.role"/></form:label></td>
+            <td><form:select path="appUserRole" multiple="true">
+                <form:options items="${appUserRoleList}" itemValue="id" itemLabel="role"/>
+            </form:select></td>
+            <td><form:errors path="appUserRole"/></td>
+        </tr>
+        <tr>
             <td colspan="2">
                 <c:if test="${appUser.id==0}">
                     <input type="submit" value="<spring:message code="label.addAppUser"/>"/>

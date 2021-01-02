@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import skamila.kapj.domain.AppUser;
 import skamila.kapj.service.AddressService;
+import skamila.kapj.service.AppUserRoleService;
 import skamila.kapj.service.AppUserService;
 import skamila.kapj.validator.AppUserValidator;
 
@@ -22,12 +23,14 @@ public class AppUserController {
 
     private AppUserService appUserService;
     private AddressService addressService;
+    private AppUserRoleService appUserRoleService;
     private AppUserValidator appUserValidator = new AppUserValidator();
 
     @Autowired
-    public AppUserController(AppUserService appUserService, AddressService addressService) {
+    public AppUserController(AppUserService appUserService, AddressService addressService, AppUserRoleService appUserRoleService) {
         this.appUserService = appUserService;
         this.addressService = addressService;
+        this.appUserRoleService = appUserRoleService;
     }
 
     @RequestMapping(value = "/appUsers")
@@ -44,6 +47,7 @@ public class AppUserController {
         }
         model.addAttribute("appUserList", appUserService.listAppUser());
         model.addAttribute("addressesList", addressService.listAddress());
+        model.addAttribute("appUserRoleList",  appUserRoleService.listAppUserRole());
         return "appUser";
     }
 

@@ -14,7 +14,10 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 import skamila.kapj.service.AddressService;
+import skamila.kapj.service.AppUserRoleService;
 import skamila.kapj.utils.AddressConverter;
+import skamila.kapj.utils.AppUserRoleConverter;
+import skamila.kapj.utils.AppUserRoleListConverter;
 
 import javax.annotation.Resource;
 import java.util.Locale;
@@ -85,14 +88,29 @@ public class SpringConfiguration implements WebMvcConfigurer {
     @Resource(name = "addressService")
     private AddressService addressService;
 
+    @Resource(name = "appUserRoleService")
+    private AppUserRoleService appUserRoleService;
+
     @Override
     public void addFormatters(FormatterRegistry formatterRegistry) {
         formatterRegistry.addConverter(getMyAddressConverter());
+        formatterRegistry.addConverter(getMyAppUserRoleConverter());
+        formatterRegistry.addConverter(getMyAppUserRoleListConverter());
     }
 
     @Bean
     public AddressConverter getMyAddressConverter() {
         return new AddressConverter(addressService);
+    }
+
+    @Bean
+    public AppUserRoleConverter getMyAppUserRoleConverter() {
+        return new AppUserRoleConverter(appUserRoleService);
+    }
+
+    @Bean
+    public AppUserRoleListConverter getMyAppUserRoleListConverter() {
+        return new AppUserRoleListConverter(appUserRoleService);
     }
 
 }
