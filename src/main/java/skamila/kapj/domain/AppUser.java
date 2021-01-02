@@ -1,5 +1,7 @@
 package skamila.kapj.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -36,6 +38,7 @@ public class AppUser {
     @Column(unique = true)
     private String login;
 
+    @JsonIgnore
     @NotNull
     private String password;
 

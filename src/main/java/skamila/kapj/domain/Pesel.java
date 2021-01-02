@@ -11,9 +11,6 @@ public class Pesel {
 
     private String PESEL;
 
-    @OneToOne(mappedBy = "pesel")
-    private AppUser appUser;
-
     public long getId() {
         return id;
     }
@@ -30,11 +27,4 @@ public class Pesel {
         this.PESEL = PESEL;
     }
 
-    public AppUser getAppUser() {
-        return appUser;
-    }
-
-    public void setAppUser(AppUser appUser) {
-        this.appUser = appUser;
-    }
 }
