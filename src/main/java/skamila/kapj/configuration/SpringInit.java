@@ -4,10 +4,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 @Configuration
-public class Init extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class SpringInit extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{MyConfiguration.class};
+        return new Class[]{SpringConfiguration.class, HibernatePersistenceConfiguration.class};
     }
 
     protected Class<?>[] getServletConfigClasses() {
