@@ -15,7 +15,7 @@
 
 <div class="container" style="padding: 20px">
     <h3><spring:message code="register"/></h3>
-    <form:form method="post" action="addPatient.html" modelAttribute="appUser" style="padding-top: 20px">
+    <form:form method="post" action="addPatient.html" modelAttribute="appUser" style="padding-top: 5px">
         <div class="form-row">
             <div class="col">
                 <div class="form-group">

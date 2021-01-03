@@ -40,7 +40,7 @@ public class RegisterController {
     @RequestMapping(value = "/register")
     public String register(Locale locale, Model model) {
         model.addAttribute("appUser", new AppUser());
-        return "view/register";
+        return "register";
     }
 
     @RequestMapping(value = "/addPatient", method = RequestMethod.POST)
@@ -53,6 +53,6 @@ public class RegisterController {
             appUserService.addAppUser(appUser);
             return "redirect:register.html";
         }
-        return "view/register";
+        return "register";
     }
 }
