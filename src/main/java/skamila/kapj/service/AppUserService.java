@@ -16,4 +16,6 @@ public interface AppUserService {
 
     AppUser getAppUser(long id);
 
+    AppUser findByLogin(String login);
+
 }

@@ -7,13 +7,20 @@
 <tiles-definitions>
     <definition name="base.definition"
                 template="/view/layout.jsp">
-        <put-attribute name="menu" value="/menu.jsp"/>
+        <put-attribute name="menu" value="/view/menu.jsp"/>
         <put-attribute name="body" value=""/>
     </definition>
 
     <definition name="register" extends="base.definition">
-        <put-attribute name="menu" value="/view/menu.jsp"/>
         <put-attribute name="body" value="/view/register.jsp"/>
+    </definition>
+
+    <definition name="login" extends="base.definition">
+        <put-attribute name="body" value="/view/login.jsp" />
+    </definition>
+
+    <definition name="accessDenied" extends="base.definition">
+        <put-attribute name="body" value="/view/accessDenied.jsp" />
     </definition>
 
 </tiles-definitions>

@@ -53,6 +53,12 @@ public class AppUserServiceImpl implements AppUserService {
         return appUserRepository.findById(id);
     }
 
+    @Transactional
+    @Override
+    public AppUser findByLogin(String login) {
+        return appUserRepository.findByLogin(login);
+    }
+
     private String hashPassword(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(password);
