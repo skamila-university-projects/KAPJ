@@ -42,7 +42,7 @@ public class AppUserValidator implements Validator {
         String userPassword = appUser.getPassword();
         if (!StringUtils.hasText(userPassword)) {
             errors.rejectValue("password", "error.field.required");
-        } else if (userPassword.length() < 3 || 30 > userPassword.length()) {
+        } else if (userPassword.length() < 3 || 30 < userPassword.length()) {
             errors.rejectValue("password", "error.password");
         }
     }

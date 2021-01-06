@@ -18,8 +18,6 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
-    private int version;
-
     @NotNull
     @Column(unique = true)
     @Size(min=3, max=15, message = "{error.length.name}")
@@ -50,7 +48,6 @@ public class AppUser {
     private Set<AppUserRole> appUserRole = new HashSet<>();
 
     @Valid
-    @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     private Pesel pesel;
 
@@ -60,14 +57,6 @@ public class AppUser {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
     }
 
     public String getLogin() {

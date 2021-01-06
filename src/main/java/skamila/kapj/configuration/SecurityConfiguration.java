@@ -20,8 +20,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("admin").password("{noop}admin").roles("ADMIN");
-
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
