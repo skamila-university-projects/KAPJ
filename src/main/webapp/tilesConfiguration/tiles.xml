@@ -23,4 +23,8 @@
         <put-attribute name="body" value="/view/accessDenied.jsp" />
     </definition>
 
+    <definition name="addUser" extends="base.definition">
+        <put-attribute name="body" value="/view/addUser.jsp" />
+    </definition>
+
 </tiles-definitions>

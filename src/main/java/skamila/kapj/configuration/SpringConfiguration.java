@@ -4,6 +4,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleResolver;
@@ -16,6 +17,8 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
+import skamila.kapj.service.AppUserRoleService;
+import skamila.kapj.utils.AppUserRoleConverter;
 
 import javax.annotation.Resource;
 import java.util.Locale;
@@ -27,6 +30,9 @@ public class SpringConfiguration implements WebMvcConfigurer {
 
     @Resource(name="myAppUserDetailsService")
     private UserDetailsService userDetailsService;
+
+    @Resource(name = "appUserRoleService")
+    private AppUserRoleService appUserRoleService;
 
     // Configure TilesConfigurer
     @Bean
@@ -77,6 +83,16 @@ public class SpringConfiguration implements WebMvcConfigurer {
         LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
         bean.setValidationMessageSource(messageSource());
         return bean;
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry formatterRegistry) {
+        formatterRegistry.addConverter(getMyAppUserRoleConverter());
+    }
+
+    @Bean
+    public AppUserRoleConverter getMyAppUserRoleConverter() {
+        return new AppUserRoleConverter(appUserRoleService);
     }
 
 }
