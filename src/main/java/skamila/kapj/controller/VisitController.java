@@ -22,6 +22,8 @@ import skamila.kapj.utils.AppUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,6 +59,7 @@ public class VisitController {
         AppUser currentUser = appUserService.findByLogin(AppUtils.getUserLogin());
         visit.setPatient(currentUser);
         visit.setPrice(40);
+        visit.setTimestamp(Timestamp.from(Instant.now()));
         visitService.addVisit(visit);
         return new RedirectView("/visit/my");
     }

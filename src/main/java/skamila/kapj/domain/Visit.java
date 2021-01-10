@@ -2,6 +2,7 @@ package skamila.kapj.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
@@ -32,6 +33,8 @@ public class Visit {
     private boolean canceled;
 
     private boolean billAvailable;
+
+    private Timestamp timestamp;
 
     public long getId() {
         return id;
@@ -103,5 +106,13 @@ public class Visit {
 
     public void setBillAvailable(boolean billAvailable) {
         this.billAvailable = billAvailable;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 }

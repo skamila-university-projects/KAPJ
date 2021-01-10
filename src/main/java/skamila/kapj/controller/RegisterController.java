@@ -84,7 +84,7 @@ public class RegisterController {
         } else if (roles.contains("ROLE_DOCTOR")) {
             return "/visit/doctor";
         } else if (roles.contains("ROLE_PATIENT")) {
-            return "/newVisit";
+            return "/visit/new";
         } else {
             return "/login";
         }
