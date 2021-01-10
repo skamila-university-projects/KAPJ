@@ -77,4 +77,15 @@ public class VisitController {
         return "visits";
     }
 
+    @RequestMapping(value = "/cancel", method = RequestMethod.POST)
+    public String cancelVisit(@RequestParam("visitId") Long visitId) {
+        visitService.cancelVisit(visitId);
+        return "newVisit";
+    }
+
+    @RequestMapping(value = "/confirm", method = RequestMethod.POST)
+    public String confirmVisit(@RequestParam("visitId") Long visitId) {
+        visitService.confirmVisit(visitId);
+        return "newVisit";
+    }
 }

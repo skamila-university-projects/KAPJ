@@ -32,12 +32,27 @@ public class VisitServiceImpl implements VisitService {
 
     @Override
     public List<Visit> findByPatient(AppUser patient) {
-        return null;
+        return visitRepository.findByPatient(patient);
     }
 
     @Override
-    public List<Visit> findByDoctor(AppUser patient) {
-        return null;
+    public List<Visit> findByDoctor(AppUser doctor) {
+        return visitRepository.findByDoctor(doctor);
+    }
+
+    @Override
+    public void cancelVisit(long visitId) {
+        Visit visit = visitRepository.findById(visitId);
+        visit.setCanceled(true);
+        visitRepository.save(visit);
+    }
+
+    @Override
+    public void confirmVisit(long visitId) {
+        Visit visit = visitRepository.findById(visitId);
+        visit.setConfirmed(true);
+        visit.setBillAvailable(true);
+        visitRepository.save(visit);
     }
 
 }

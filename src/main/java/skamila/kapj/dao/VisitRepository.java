@@ -12,6 +12,8 @@ import java.util.List;
 @Repository
 public interface VisitRepository extends JpaRepository<Visit, Long> {
 
+    Visit findById(Long id);
+
     List<Visit> findByPatient(AppUser appUser);
 
     List<Visit> findByDoctor(AppUser appUser);

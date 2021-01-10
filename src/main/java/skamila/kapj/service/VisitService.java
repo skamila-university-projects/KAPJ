@@ -14,4 +14,8 @@ public interface VisitService {
     List<Visit> findByPatient(AppUser patient);
 
     List<Visit> findByDoctor(AppUser patient);
+
+    void cancelVisit(long visitId);
+
+    void confirmVisit(long visitId);
 }
