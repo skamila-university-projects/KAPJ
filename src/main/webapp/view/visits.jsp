@@ -17,7 +17,7 @@
         <th scope="col"><spring:message code="date"/></th>
         <th scope="col"><spring:message code="doctor"/></th>
         <th scope="col"><spring:message code="patient"/></th>
-        <th scope="col"><spring:message code="pesel"/></th>
+        <th scope="col"></th>
         <th scope="col"></th>
         <th scope="col"></th>
         <th scope="col"></th>
@@ -29,7 +29,7 @@
             <td><c:out value="${visit.time}"/></td>
             <td><c:out value="${visit.doctor.firstName}"/> <c:out value="${visit.doctor.lastName}"/></td>
             <td><c:out value="${visit.patient.firstName}"/> <c:out value="${visit.patient.lastName}"/></td>
-            <td></td>
+            <td><c:out value="${visit.patient.pesel.PESEL}"/></td>
             <td>
                 <c:choose>
                     <c:when test="${visit.canceled}">
@@ -42,9 +42,15 @@
                 </c:choose>
             </td>
             <td>
-                <c:if test="${not visit.confirmed}"><span class="material-icons">check</span> </c:if>
+                <c:if test="${not visit.confirmed}">
+                    <a href="/visit/confirm?visitId=${visit.id}">
+                        <span class="material-icons">check</span></c:if>
+                    </a>
+
                 <c:if test="${not visit.canceled}">
-                    <span class="material-icons">close</span>
+                    <a href="/visit/cancel?visitId=${visit.id}">
+                        <span class="material-icons">close</span>
+                    </a>
                 </c:if>
             </td>
             <td><span class="material-icons">request_quote</span></td>
