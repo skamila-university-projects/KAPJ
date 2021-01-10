@@ -17,10 +17,14 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
     <script src="https://www.google.com/recaptcha/api.js"></script>
-    <script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
-    <script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/locales/bootstrap-datepicker.pl.min.js" charset="UTF-8"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
-    <link id="bsdp-css" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.0/moment-with-locales.js"></script>
+    <script src="https://rawgit.com/tempusdominus/bootstrap-4/master/build/js/tempusdominus-bootstrap-4.min.js"></script>
+    <link href="https://rawgit.com/tempusdominus/bootstrap-4/master/build/css/tempusdominus-bootstrap-4.min.css"
+          rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
 </head>
 <body>
 
@@ -37,15 +41,14 @@
     </div>
 
     <div class="form-group">
-        <div class="input-group date" data-provide="datepicker" id="date-picker">
-            <input type="text" class="form-control">
-            <div class="input-group-addon">
-                <span class="glyphicon glyphicon-th"></span>
-            </div>
+        <form:label path="doctor"><spring:message code="chooseDate"/></form:label>
+        <div class="input-group date" id="datetimepicker" data-target-input="nearest">
+            <span class="input-group-addon material-icons" data-target="#datetimepicker" data-toggle="datetimepicker"
+                  class="material-icons">today</span>
+            <input type="text" class="form-control datetimepicker-input"
+                   data-target="#datetimepicker1"/>
         </div>
     </div>
-
-
 
     <div class="form-group">
         <button type="submit" class="btn btn-info"><spring:message code="bookVisit"/></button>
@@ -53,10 +56,13 @@
 
 </form:form>
 <script>
-    $('#sandbox-container input').datepicker({
-        format: "dd/mm/yyyy",
-        keyboardNavigation: false,
-        forceParse: false
+    $(function () {
+        $('#datetimepicker').datetimepicker({
+            format: 'DD/MM/YYYY HH:mm',
+            minDate: new Date(),
+            stepping: 15,
+            enabledHours: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+        });
     });
 </script>
 </body>
