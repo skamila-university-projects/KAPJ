@@ -37,6 +37,11 @@ public class RegisterController {
         this.reCaptchaService = reCaptchaService;
     }
 
+    @RequestMapping(value = "/")
+    public String emptyPage() {
+        return "empty";
+    }
+
     @RequestMapping(value = "/register")
     public String register(Locale locale, Model model) {
         model.addAttribute("appUser", new AppUser());

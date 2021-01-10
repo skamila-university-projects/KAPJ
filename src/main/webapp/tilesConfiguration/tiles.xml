@@ -27,4 +27,8 @@
         <put-attribute name="body" value="/view/addUser.jsp" />
     </definition>
 
+    <definition name="empty" extends="base.definition">
+        <put-attribute name="body" value="/view/empty.jsp" />
+    </definition>
+
 </tiles-definitions>
