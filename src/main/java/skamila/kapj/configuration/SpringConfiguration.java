@@ -18,7 +18,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 import skamila.kapj.service.AppUserRoleService;
+import skamila.kapj.service.AppUserService;
 import skamila.kapj.utils.AppUserRoleConverter;
+import skamila.kapj.utils.DateConverter;
+import skamila.kapj.utils.AppUserConverter;
 
 import javax.annotation.Resource;
 import java.util.Locale;
@@ -33,6 +36,9 @@ public class SpringConfiguration implements WebMvcConfigurer {
 
     @Resource(name = "appUserRoleService")
     private AppUserRoleService appUserRoleService;
+
+    @Resource(name = "appUserService")
+    private AppUserService appUserService;
 
     // Configure TilesConfigurer
     @Bean
@@ -88,11 +94,23 @@ public class SpringConfiguration implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry formatterRegistry) {
         formatterRegistry.addConverter(getMyAppUserRoleConverter());
+        formatterRegistry.addConverter(getMyDateConverter());
+        formatterRegistry.addConverter(getMyUserConverter());
     }
 
     @Bean
     public AppUserRoleConverter getMyAppUserRoleConverter() {
         return new AppUserRoleConverter(appUserRoleService);
+    }
+
+    @Bean
+    public DateConverter getMyDateConverter() {
+        return new DateConverter();
+    }
+
+    @Bean
+    public AppUserConverter getMyUserConverter() {
+        return new AppUserConverter(appUserService);
     }
 
 }

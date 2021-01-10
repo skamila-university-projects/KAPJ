@@ -30,9 +30,9 @@
 
 <h3><spring:message code="menu.newVisit"/></h3>
 
-<form:form method="post" action="addPatient.html" modelAttribute="visit" style="padding-top: 5px">
+<form:form method="post" action="addVisit.html" modelAttribute="visit" style="padding-top: 5px">
     <div class="form-group">
-        <form:label path="doctor"><spring:message code="label.role"/></form:label>
+        <form:label path="doctor"><spring:message code="doctor"/></form:label>
         <form:select path="doctor" multiple="false" class="form-control">
             <form:options items="${doctorsList}" itemValue="id" itemLabel="lastName"/>
         </form:select>
@@ -41,13 +41,14 @@
     </div>
 
     <div class="form-group">
-        <form:label path="doctor"><spring:message code="chooseDate"/></form:label>
+        <form:label path="time"><spring:message code="chooseDate"/></form:label>
         <div class="input-group date" id="datetimepicker" data-target-input="nearest">
             <span class="input-group-addon material-icons" data-target="#datetimepicker" data-toggle="datetimepicker"
                   class="material-icons">today</span>
-            <input type="text" class="form-control datetimepicker-input"
-                   data-target="#datetimepicker1"/>
+            <form:input path="time" class="form-control datetimepicker-input"
+                   data-target="#datetimepicker"/>
         </div>
+        <form:errors path="time" class="form-text text-muted"/>
     </div>
 
     <div class="form-group">

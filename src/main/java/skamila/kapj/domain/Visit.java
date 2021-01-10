@@ -1,6 +1,7 @@
 package skamila.kapj.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,12 +12,15 @@ public class Visit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
+    @NotNull
     @ManyToOne
     private AppUser doctor;
 
+    @NotNull
     @ManyToOne
     private AppUser patient;
 
+    @NotNull
     private LocalDateTime time;
 
     private int lengthOfVisit;

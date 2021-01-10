@@ -15,7 +15,6 @@ import skamila.kapj.service.AppUserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 public class VisitController {
@@ -34,6 +33,12 @@ public class VisitController {
         model.addAttribute("visit", new Visit());
         AppUserRole doctorRole = appUserRoleService.getAppUserRole("ROLE_DOCTOR");
         model.addAttribute("doctorsList",  appUserService.findByRole(doctorRole));
+        return "newVisit";
+    }
+
+    @RequestMapping(value = "/addVisit", method = RequestMethod.POST)
+    public String addPatient(@Valid @ModelAttribute("visit") Visit visit, BindingResult result, Model model, HttpServletRequest request) {
+        System.out.println("Wizyta! " + visit);
         return "newVisit";
     }
 
