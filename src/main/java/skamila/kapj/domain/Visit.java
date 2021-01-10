@@ -1,22 +1,21 @@
 package skamila.kapj.domain;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name="visit")
 public class Visit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
-    @Column(name = "doctor_id")
-    long doctorId;
+    @ManyToOne
+    private AppUser doctor;
 
-    @Column(name = "patient_id")
-    long patientId;
+    @ManyToOne
+    private AppUser patient;
 
     private LocalDateTime time;
 
@@ -28,4 +27,67 @@ public class Visit {
 
     private boolean canceled;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public AppUser getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(AppUser doctor) {
+        this.doctor = doctor;
+    }
+
+    public AppUser getPatient() {
+        return patient;
+    }
+
+    public void setPatient(AppUser patient) {
+        this.patient = patient;
+    }
+
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
+
+    public int getLengthOfVisit() {
+        return lengthOfVisit;
+    }
+
+    public void setLengthOfVisit(int lengthOfVisit) {
+        this.lengthOfVisit = lengthOfVisit;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public boolean isConfirmed() {
+        return confirmed;
+    }
+
+    public void setConfirmed(boolean confirmed) {
+        this.confirmed = confirmed;
+    }
+
+    public boolean isCanceled() {
+        return canceled;
+    }
+
+    public void setCanceled(boolean canceled) {
+        this.canceled = canceled;
+    }
 }

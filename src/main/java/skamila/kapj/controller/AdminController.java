@@ -28,7 +28,7 @@ public class AdminController {
     private AppUserValidator appUserValidator = new AppUserValidator();
 
     @Autowired
-    public AdminController(AppUserService appUserService, AppUserRoleService appUserRoleService, AppUserRoleRepository appUserRoleRepository) {
+    public AdminController(AppUserService appUserService, AppUserRoleService appUserRoleService) {
         this.appUserService = appUserService;
         this.appUserRoleService = appUserRoleService;
     }
@@ -47,7 +47,7 @@ public class AdminController {
             appUserService.addAppUser(appUser);
             return "redirect:register.html";
         }
-        return "register";
+        return "addUser";
     }
 
 }
