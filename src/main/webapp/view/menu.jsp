@@ -76,6 +76,15 @@
                 </li>
             </security:authorize>
         </ul>
+        <ul class="navbar-nav navbar-righ">
+            <div class="form-row">
+                <div class="col">
+                    <a class="language-button" style="color: white" href="?lang=pl"><button type="button" class="btn btn-outline-info btn-sm">PL</button></a>
+                    <a class="language-button" style="color: white" href="?lang=en"><button type="button" class="btn btn-outline-info btn-sm">EN</button></a>
+                    <a class="language-button" style="color: white" href="?lang=is"><button type="button" class="btn btn-outline-info btn-sm">IS</button></a>
+                </div>
+            </div>
+        </ul>
 
     </div>
 </nav>
