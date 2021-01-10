@@ -17,11 +17,9 @@
     <title><tiles:insertAttribute name="title" ignore="true"/></title>
 </head>
 <body>
-<table border="1" cellpadding="2" cellspacing="2" align="center">
     <tiles:insertAttribute name="menu"/>
         <div class="container" style="padding: 20px">
             <tiles:insertAttribute name="body"/>
         </div>
-</table>
 </body>
 </html>
