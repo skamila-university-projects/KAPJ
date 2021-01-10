@@ -30,7 +30,7 @@
             <%-- Pacjeńci --%>
             <security:authorize access="hasRole('ROLE_PATIENT')">
                 <li class="nav-item nav-link">
-                    <a class="nav-link" href="#"><spring:message code="menu.newVisit"/></a>
+                    <a class="nav-link" href="/newVisit"><spring:message code="menu.newVisit"/></a>
                 </li>
                 <li class="nav-item nav-link">
                     <a class="nav-link" href="#"><spring:message code="menu.myVisits"/></a>
