@@ -29,7 +29,7 @@
             <td><c:out value="${visit.time}"/></td>
             <td><c:out value="${visit.doctor.firstName}"/> <c:out value="${visit.doctor.lastName}"/></td>
             <td><c:out value="${visit.patient.firstName}"/> <c:out value="${visit.patient.lastName}"/></td>
-            <td><c:out value="${visit.patient.pesel.PESEL}"/></td>
+            <td></td>
             <td>
                 <c:choose>
                     <c:when test="${visit.canceled}">
