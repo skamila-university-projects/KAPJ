@@ -40,33 +40,35 @@
             <td>
                 <c:choose>
                     <c:when test="${visit.canceled}">
-                        <spring:message code="canceled"/>
+                        <span class="material-icons" style="color: #17A2B8">close</span>
                     </c:when>
-                    <c:when test="${visit.confirmed}"><spring:message code="confirmed"/></c:when>
-
+                    <c:when test="${visit.confirmed}">
+                        <span class="material-icons" style="color: #17A2B8">check</span></c:when>
                     <c:otherwise>
-                        <spring:message code="unconfirmed"/>
+                        <span class="material-icons" style="color: #17A2B8">hourglass_empty</span>
                     </c:otherwise>
                 </c:choose>
+            </td>
+            <td>
+                <c:if test="${visit.billAvailable}">
+                    <a href="/visit/pdf?visitId=${visit.id}">
+                        <span class="material-icons" style="color: #17A2B8">request_quote</span>
+                    </a>
+                </c:if>
             </td>
             <td>
                 <security:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DOCTOR')">
                     <c:if test="${not visit.confirmed and not visit.canceled}">
                         <a href="/visit/confirm?visitId=${visit.id}">
-                            <span class="material-icons">check</span>
+                            <button type="button" class="btn btn-outline-info btn-sm"><spring:message
+                                    code="confirm"/></button>
                         </a>
                     </c:if>
                 </security:authorize>
                 <c:if test="${not visit.canceled}">
                     <a href="/visit/cancel?visitId=${visit.id}">
-                        <span class="material-icons">close</span>
-                    </a>
-                </c:if>
-            </td>
-            <td>
-                <c:if test="${visit.billAvailable}">
-                    <a href="/visit/pdf?visitId=${visit.id}">
-                        <span class="material-icons">request_quote</span>
+                        <button type="button" class="btn btn-outline-info btn-sm"><spring:message
+                                code="cancel"/></button>
                     </a>
                 </c:if>
             </td>
