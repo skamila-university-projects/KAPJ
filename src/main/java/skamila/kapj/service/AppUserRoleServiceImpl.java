@@ -36,4 +36,10 @@ public class AppUserRoleServiceImpl implements AppUserRoleService {
         return appUserRoleRepository.getOne(id);
     }
 
+    @Transactional
+    @Override
+    public AppUserRole getAppUserRole(String name) {
+        return appUserRoleRepository.findByRole(name);
+    }
+
 }

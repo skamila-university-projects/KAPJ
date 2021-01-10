@@ -1,6 +1,7 @@
 package skamila.kapj.service;
 
 import skamila.kapj.domain.AppUser;
+import skamila.kapj.domain.AppUserRole;
 
 import java.util.List;
 
@@ -17,5 +18,7 @@ public interface AppUserService {
     AppUser getAppUser(long id);
 
     AppUser findByLogin(String login);
+
+    List<AppUser> findByRole(AppUserRole appUserRole);
 
 }

@@ -25,15 +25,12 @@ public class RegisterController {
     private AppUserRoleService appUserRoleService;
     private ReCaptchaService reCaptchaService;
 
-    private AppUserRoleRepository appUserRoleRepository;
-
     private AppUserValidator appUserValidator = new AppUserValidator();
 
     @Autowired
-    public RegisterController(AppUserService appUserService, AppUserRoleService appUserRoleService, AppUserRoleRepository appUserRoleRepository) {
+    public RegisterController(AppUserService appUserService, AppUserRoleService appUserRoleService) {
         this.appUserService = appUserService;
         this.appUserRoleService = appUserRoleService;
-        this.appUserRoleRepository = appUserRoleRepository;
         this.reCaptchaService = reCaptchaService;
     }
 
@@ -54,7 +51,7 @@ public class RegisterController {
         if (result.getErrorCount() == 0
 //                && reCaptchaService.verify(request.getParameter("g-recaptcha-response"))
         ) {
-            appUser.getAppUserRole().add(appUserRoleRepository.findByRole("ROLE_PATIENT"));
+            appUser.getAppUserRole().add(appUserRoleService.getAppUserRole("ROLE_PATIENT"));
             appUserService.addAppUser(appUser);
             return "redirect:register.html";
         }

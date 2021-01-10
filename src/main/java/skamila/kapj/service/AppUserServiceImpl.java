@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import skamila.kapj.dao.AppUserRepository;
 import skamila.kapj.dao.AppUserRoleRepository;
 import skamila.kapj.domain.AppUser;
+import skamila.kapj.domain.AppUserRole;
 
 import java.util.List;
 
@@ -57,6 +58,12 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public AppUser findByLogin(String login) {
         return appUserRepository.findByLogin(login);
+    }
+
+    @Transactional
+    @Override
+    public List<AppUser> findByRole(AppUserRole appUserRole) {
+        return appUserRepository.findByAppUserRole(appUserRole);
     }
 
     private String hashPassword(String password) {
