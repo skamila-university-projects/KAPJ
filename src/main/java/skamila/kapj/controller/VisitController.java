@@ -85,15 +85,15 @@ public class VisitController {
     }
 
     @RequestMapping(value = "/cancel", method = RequestMethod.GET)
-    public String cancelVisit(@RequestParam("visitId") Long visitId) {
+    public RedirectView cancelVisit(@RequestParam("visitId") Long visitId) {
         visitService.cancelVisit(visitId);
-        return "visits";
+        return new RedirectView(choiceView());
     }
 
     @RequestMapping(value = "/confirm", method = RequestMethod.GET)
-    public String confirmVisit(@RequestParam("visitId") Long visitId) {
+    public RedirectView confirmVisit(@RequestParam("visitId") Long visitId) {
         visitService.confirmVisit(visitId);
-        return "visits";
+        return new RedirectView(choiceView());
     }
 
     @RequestMapping(value = "/pdf", method = RequestMethod.GET)
@@ -109,11 +109,7 @@ public class VisitController {
     private boolean isUserAdmin() {
         AppUser currentUser = appUserService.findByLogin(AppUtils.getUserLogin());
         List<String> roles = currentUser.getAppUserRole().stream().map(role -> role.getRole()).collect(Collectors.toList());
-        if (roles.contains("ROLE_ADMIN")) {
-            return true;
-        } else {
-            return false;
-        }
+        return roles.contains("ROLE_ADMIN");
     }
 
     private String choiceView() {

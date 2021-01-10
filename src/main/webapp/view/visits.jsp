@@ -42,7 +42,8 @@
                     <c:when test="${visit.canceled}">
                         <spring:message code="canceled"/>
                     </c:when>
-                    <c:when test="${visit.confirmed}"><spring:message code="confirmed"/> </c:when>
+                    <c:when test="${visit.confirmed}"><spring:message code="confirmed"/></c:when>
+
                     <c:otherwise>
                         <spring:message code="unconfirmed"/>
                     </c:otherwise>

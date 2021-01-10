@@ -14,12 +14,15 @@ import skamila.kapj.service.AppUserRoleService;
 import skamila.kapj.service.AppUserService;
 import skamila.kapj.service.MailService;
 import skamila.kapj.service.ReCaptchaService;
+import skamila.kapj.utils.AppUtils;
 import skamila.kapj.validator.AppUserValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Controller
 public class RegisterController {
@@ -40,8 +43,8 @@ public class RegisterController {
     }
 
     @RequestMapping(value = "/")
-    public String emptyPage() {
-        return "empty";
+    public RedirectView emptyPage() {
+        return new RedirectView(choiceView());
     }
 
     @RequestMapping(value = "/register")
@@ -68,5 +71,22 @@ public class RegisterController {
     public RedirectView activateAccount(@RequestParam String token) {
         appUserService.activateAccount(token);
         return new RedirectView("/login");
+    }
+
+    private String choiceView() {
+        if (AppUtils.isAnonymousUser()) {
+            return "/login";
+        }
+        AppUser currentUser = appUserService.findByLogin(AppUtils.getUserLogin());
+        List<String> roles = currentUser.getAppUserRole().stream().map(role -> role.getRole()).collect(Collectors.toList());
+        if (roles.contains("ROLE_ADMIN")) {
+            return "/visit/admin";
+        } else if (roles.contains("ROLE_DOCTOR")) {
+            return "/visit/doctor";
+        } else if (roles.contains("ROLE_PATIENT")) {
+            return "/newVisit";
+        } else {
+            return "/login";
+        }
     }
 }

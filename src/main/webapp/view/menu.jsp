@@ -24,7 +24,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse">
-        <a class="navbar-brand" href="#"><spring:message code="title.doctor24"/></a>
+        <a class="navbar-brand" href="/"><spring:message code="title.doctor24"/></a>
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
             <%-- Pacjeńci --%>
