@@ -33,24 +33,21 @@
                     <a class="nav-link" href="/newVisit"><spring:message code="menu.newVisit"/></a>
                 </li>
                 <li class="nav-item nav-link">
-                    <a class="nav-link" href="#"><spring:message code="menu.myVisits"/></a>
+                    <a class="nav-link" href="/visits"><spring:message code="menu.myVisits"/></a>
                 </li>
             </security:authorize>
 
             <%-- Lekarze --%>
             <security:authorize access="hasRole('ROLE_DOCTOR')">
                 <li class="nav-item nav-link">
-                    <a class="nav-link" href="#"><spring:message code="menu.visits"/></a>
-                </li>
-                <li class="nav-item nav-link">
-                    <a class="nav-link" href="#"><spring:message code="menu.schedule"/></a>
+                    <a class="nav-link" href="/doctor/visits"><spring:message code="menu.visits"/></a>
                 </li>
             </security:authorize>
 
             <%-- Administrator --%>
             <security:authorize access="hasRole('ROLE_ADMIN')">
                 <li class="nav-item nav-link">
-                    <a class="nav-link" href="#"><spring:message code="menu.visits"/></a>
+                    <a class="nav-link" href="/admin/visits"><spring:message code="menu.visits"/></a>
                 </li>
                 <li class="nav-item nav-link">
                     <a class="nav-link" href="/admin/register"><spring:message code="menu.addUser"/></a>

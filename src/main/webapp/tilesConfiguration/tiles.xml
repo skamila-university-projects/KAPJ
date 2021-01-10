@@ -35,4 +35,8 @@
         <put-attribute name="body" value="/view/newVisit.jsp" />
     </definition>
 
+    <definition name="visits" extends="base.definition">
+        <put-attribute name="body" value="/view/visits.jsp" />
+    </definition>
+
 </tiles-definitions>

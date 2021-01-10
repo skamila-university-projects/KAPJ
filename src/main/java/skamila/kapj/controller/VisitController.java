@@ -1,6 +1,7 @@
 package skamila.kapj.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,14 +33,16 @@ public class VisitController {
         this.visitService = visitService;
     }
 
+    @Secured("ROLE_PATIENT")
     @RequestMapping(value = "/newVisit")
     public String newVisit(@Valid @ModelAttribute("appUser") Visit visit, BindingResult result, Model model, HttpServletRequest request) {
         model.addAttribute("visit", new Visit());
         AppUserRole doctorRole = appUserRoleService.getAppUserRole("ROLE_DOCTOR");
-        model.addAttribute("doctorsList",  appUserService.findByRole(doctorRole));
+        model.addAttribute("doctorsList", appUserService.findByRole(doctorRole));
         return "newVisit";
     }
 
+    @Secured("ROLE_PATIENT")
     @RequestMapping(value = "/addVisit", method = RequestMethod.POST)
     public String addVisit(@Valid @ModelAttribute("visit") Visit visit, BindingResult result, Model model, HttpServletRequest request) {
         AppUser currentUser = appUserService.findByLogin(AppUtils.getUserLogin());
@@ -47,6 +50,29 @@ public class VisitController {
         visit.setPrice(40);
         visitService.addVisit(visit);
         return "newVisit";
+    }
+
+    @Secured("ROLE_ADMIN")
+    @RequestMapping(value = "/admin/visits")
+    public String getAllVisits(Model model) {
+        model.addAttribute("visits", visitService.listVisits());
+        return "visits";
+    }
+
+    @Secured("ROLE_DOCTOR")
+    @RequestMapping(value = "/doctor/visits")
+    public String getDoctorVisits(Model model) {
+        AppUser currentUser = appUserService.findByLogin(AppUtils.getUserLogin());
+        model.addAttribute("visits", visitService.findByDoctor(currentUser));
+        return "visits";
+    }
+
+    @Secured("ROLE_PATIENT")
+    @RequestMapping(value = "/visits")
+    public String getVisits(Model model) {
+        AppUser currentUser = appUserService.findByLogin(AppUtils.getUserLogin());
+        model.addAttribute("visits", visitService.findByPatient(currentUser));
+        return "visits";
     }
 
 }
