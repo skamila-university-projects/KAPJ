@@ -27,9 +27,16 @@
     <c:forEach items="${visits}" var="visit">
         <tr>
             <td><c:out value="${visit.time}"/></td>
-            <td><c:out value="${visit.doctor.firstName}"/> <c:out value="${visit.doctor.lastName}"/></td>
-            <td><c:out value="${visit.patient.firstName}"/> <c:out value="${visit.patient.lastName}"/></td>
-            <td><c:out value="${visit.patient.pesel.PESEL}"/></td>
+
+            <security:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_PATIENT')">
+                <td><c:out value="${visit.doctor.firstName}"/> <c:out value="${visit.doctor.lastName}"/></td>
+            </security:authorize>
+
+            <security:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DOCTOR')">
+                <td><c:out value="${visit.patient.firstName}"/> <c:out value="${visit.patient.lastName}"/></td>
+                <td><c:out value="${visit.patient.pesel.PESEL}"/></td>
+            </security:authorize>
+
             <td>
                 <c:choose>
                     <c:when test="${visit.canceled}">
@@ -42,10 +49,13 @@
                 </c:choose>
             </td>
             <td>
-                <c:if test="${not visit.confirmed and not visit.canceled}">
-                    <a href="/visit/confirm?visitId=${visit.id}">
-                        <span class="material-icons">check</span></c:if>
-                    </a>
+                <security:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_DOCTOR')">
+                    <c:if test="${not visit.confirmed and not visit.canceled}">
+                        <a href="/visit/confirm?visitId=${visit.id}">
+                            <span class="material-icons">check</span>
+                        </a>
+                    </c:if>
+                </security:authorize>
                 <c:if test="${not visit.canceled}">
                     <a href="/visit/cancel?visitId=${visit.id}">
                         <span class="material-icons">close</span>
