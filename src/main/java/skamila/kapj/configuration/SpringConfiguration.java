@@ -3,8 +3,11 @@ package skamila.kapj.configuration;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleResolver;
@@ -14,24 +17,27 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 import skamila.kapj.service.AppUserRoleService;
 import skamila.kapj.service.AppUserService;
+import skamila.kapj.utils.AppUserConverter;
 import skamila.kapj.utils.AppUserRoleConverter;
 import skamila.kapj.utils.DateConverter;
-import skamila.kapj.utils.AppUserConverter;
 
 import javax.annotation.Resource;
 import java.util.Locale;
+import java.util.Properties;
 
 @Configuration
 @EnableWebMvc
 @ComponentScan("skamila.kapj")
 public class SpringConfiguration implements WebMvcConfigurer {
 
-    @Resource(name="myAppUserDetailsService")
+    public final static String MAIL = "";
+    private final static String PASSWORD = "";
+
+    @Resource(name = "myAppUserDetailsService")
     private UserDetailsService userDetailsService;
 
     @Resource(name = "appUserRoleService")
@@ -111,6 +117,24 @@ public class SpringConfiguration implements WebMvcConfigurer {
     @Bean
     public AppUserConverter getMyUserConverter() {
         return new AppUserConverter(appUserService);
+    }
+
+    @Bean
+    public JavaMailSender getJavaMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+
+        mailSender.setUsername(MAIL);
+        mailSender.setPassword(PASSWORD);
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "true");
+
+        return mailSender;
     }
 
 }

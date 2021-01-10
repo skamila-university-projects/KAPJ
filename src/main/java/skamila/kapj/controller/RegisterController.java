@@ -7,16 +7,19 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import skamila.kapj.dao.AppUserRoleRepository;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
 import skamila.kapj.domain.AppUser;
 import skamila.kapj.service.AppUserRoleService;
 import skamila.kapj.service.AppUserService;
+import skamila.kapj.service.MailService;
 import skamila.kapj.service.ReCaptchaService;
 import skamila.kapj.validator.AppUserValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Locale;
+import java.util.UUID;
 
 @Controller
 public class RegisterController {
@@ -24,13 +27,15 @@ public class RegisterController {
     private AppUserService appUserService;
     private AppUserRoleService appUserRoleService;
     private ReCaptchaService reCaptchaService;
+    private MailService mailService;
 
     private AppUserValidator appUserValidator = new AppUserValidator();
 
     @Autowired
-    public RegisterController(AppUserService appUserService, AppUserRoleService appUserRoleService) {
+    public RegisterController(AppUserService appUserService, AppUserRoleService appUserRoleService, MailService mailService) {
         this.appUserService = appUserService;
         this.appUserRoleService = appUserRoleService;
+        this.mailService = mailService;
         this.reCaptchaService = reCaptchaService;
     }
 
@@ -52,9 +57,17 @@ public class RegisterController {
 //                && reCaptchaService.verify(request.getParameter("g-recaptcha-response"))
         ) {
             appUser.getAppUserRole().add(appUserRoleService.getAppUserRole("ROLE_PATIENT"));
+            appUser.setToken(UUID.randomUUID().toString());
+            mailService.sendMail(appUser);
             appUserService.addAppUser(appUser);
             return "redirect:register.html";
         }
         return "register";
+    }
+
+    @RequestMapping(value = "/activateAccount", method = RequestMethod.GET)
+    public RedirectView activateAccount(@RequestParam String token) {
+       appUserService.activateAccount(token);
+        return new RedirectView("/login");
     }
 }

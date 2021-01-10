@@ -19,4 +19,6 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     AppUser findByLogin(String login);
 
     List<AppUser> findByAppUserRole(AppUserRole appUserRole);
+
+    AppUser findByToken(String token);
 }

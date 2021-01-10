@@ -66,6 +66,14 @@ public class AppUserServiceImpl implements AppUserService {
         return appUserRepository.findByAppUserRole(appUserRole);
     }
 
+    @Transactional
+    @Override
+    public void activateAccount(String token) {
+        AppUser user = appUserRepository.findByToken(token);
+        user.setEnabled(true);
+        appUserRepository.save(user);
+    }
+
     private String hashPassword(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(password);

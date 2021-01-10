@@ -51,6 +51,9 @@ public class AppUser {
     @OneToOne(cascade = CascadeType.ALL)
     private Pesel pesel;
 
+    @Column(unique = true)
+    private String token;
+
     public long getId() {
         return id;
     }
@@ -129,5 +132,13 @@ public class AppUser {
 
     public void setPesel(Pesel pesel) {
         this.pesel = pesel;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

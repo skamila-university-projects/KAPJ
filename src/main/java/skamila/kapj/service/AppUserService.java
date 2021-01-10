@@ -21,4 +21,6 @@ public interface AppUserService {
 
     List<AppUser> findByRole(AppUserRole appUserRole);
 
+    void activateAccount(String token);
+
 }
