@@ -32,7 +32,7 @@ public class RegisterController {
     private AppUserValidator appUserValidator = new AppUserValidator();
 
     @Autowired
-    public RegisterController(AppUserService appUserService, AppUserRoleService appUserRoleService, MailService mailService) {
+    public RegisterController(AppUserService appUserService, AppUserRoleService appUserRoleService, MailService mailService, ReCaptchaService reCaptchaService) {
         this.appUserService = appUserService;
         this.appUserRoleService = appUserRoleService;
         this.mailService = mailService;
@@ -54,8 +54,7 @@ public class RegisterController {
     public String addPatient(@Valid @ModelAttribute("appUser") AppUser appUser, BindingResult result, Model model, HttpServletRequest request) {
         appUserValidator.validate(appUser, result);
         if (result.getErrorCount() == 0
-//                && reCaptchaService.verify(request.getParameter("g-recaptcha-response"))
-        ) {
+                && reCaptchaService.verify(request.getParameter("g-recaptcha-response"))) {
             appUser.getAppUserRole().add(appUserRoleService.getAppUserRole("ROLE_PATIENT"));
             appUser.setToken(UUID.randomUUID().toString());
             mailService.sendMail(appUser);
@@ -67,7 +66,7 @@ public class RegisterController {
 
     @RequestMapping(value = "/activateAccount", method = RequestMethod.GET)
     public RedirectView activateAccount(@RequestParam String token) {
-       appUserService.activateAccount(token);
+        appUserService.activateAccount(token);
         return new RedirectView("/login");
     }
 }
