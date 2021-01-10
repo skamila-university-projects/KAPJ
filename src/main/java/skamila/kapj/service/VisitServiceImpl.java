@@ -25,25 +25,36 @@ public class VisitServiceImpl implements VisitService {
         visitRepository.save(visit);
     }
 
+    @Transactional
     @Override
     public List<Visit> listVisits() {
         return visitRepository.findAll();
     }
 
+    @Transactional
+    @Override
+    public Visit findById(Long visitId) {
+        return visitRepository.findById(visitId);
+    }
+
+    @Transactional
     @Override
     public List<Visit> findByPatient(AppUser patient) {
         return visitRepository.findByPatient(patient);
     }
 
+    @Transactional
     @Override
     public List<Visit> findByDoctor(AppUser doctor) {
         return visitRepository.findByDoctor(doctor);
     }
 
+    @Transactional
     @Override
     public void cancelVisit(long visitId) {
         Visit visit = visitRepository.findById(visitId);
         visit.setCanceled(true);
+        visit.setBillAvailable(false);
         visitRepository.save(visit);
     }
 

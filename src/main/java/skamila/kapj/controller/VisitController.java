@@ -15,10 +15,12 @@ import skamila.kapj.domain.AppUserRole;
 import skamila.kapj.domain.Visit;
 import skamila.kapj.service.AppUserRoleService;
 import skamila.kapj.service.AppUserService;
+import skamila.kapj.service.PdfService;
 import skamila.kapj.service.VisitService;
 import skamila.kapj.utils.AppUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,12 +32,14 @@ public class VisitController {
     private AppUserService appUserService;
     private AppUserRoleService appUserRoleService;
     private VisitService visitService;
+    private PdfService pdfService;
 
     @Autowired
-    public VisitController(AppUserService appUserService, AppUserRoleService appUserRoleService, VisitService visitService) {
+    public VisitController(AppUserService appUserService, AppUserRoleService appUserRoleService, VisitService visitService, PdfService pdfService) {
         this.appUserService = appUserService;
         this.appUserRoleService = appUserRoleService;
         this.visitService = visitService;
+        this.pdfService = pdfService;
     }
 
     @Secured("ROLE_PATIENT")
@@ -90,6 +94,26 @@ public class VisitController {
     public String confirmVisit(@RequestParam("visitId") Long visitId) {
         visitService.confirmVisit(visitId);
         return "visits";
+    }
+
+    @RequestMapping(value = "/pdf", method = RequestMethod.GET)
+    public void getPdf(@RequestParam("visitId") Long visitId, HttpServletResponse response) {
+        String userLogin = AppUtils.getUserLogin();
+        AppUser user = appUserService.findByLogin(userLogin);
+        Visit visit = visitService.findById(visitId);
+        if ((visit.getPatient().getId() == user.getId() || visit.getDoctor().getId() == user.getId() || isUserAdmin()) && visit.isConfirmed()) {
+            pdfService.generatePdf(visit, response);
+        }
+    }
+
+    private boolean isUserAdmin() {
+        AppUser currentUser = appUserService.findByLogin(AppUtils.getUserLogin());
+        List<String> roles = currentUser.getAppUserRole().stream().map(role -> role.getRole()).collect(Collectors.toList());
+        if (roles.contains("ROLE_ADMIN")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private String choiceView() {

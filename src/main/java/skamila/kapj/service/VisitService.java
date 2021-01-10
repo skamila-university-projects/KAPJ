@@ -11,6 +11,8 @@ public interface VisitService {
 
     List<Visit> listVisits();
 
+    Visit findById(Long visitId);
+
     List<Visit> findByPatient(AppUser patient);
 
     List<Visit> findByDoctor(AppUser patient);

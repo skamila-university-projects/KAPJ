@@ -42,18 +42,23 @@
                 </c:choose>
             </td>
             <td>
-                <c:if test="${not visit.confirmed}">
+                <c:if test="${not visit.confirmed and not visit.canceled}">
                     <a href="/visit/confirm?visitId=${visit.id}">
                         <span class="material-icons">check</span></c:if>
                     </a>
-
                 <c:if test="${not visit.canceled}">
                     <a href="/visit/cancel?visitId=${visit.id}">
                         <span class="material-icons">close</span>
                     </a>
                 </c:if>
             </td>
-            <td><span class="material-icons">request_quote</span></td>
+            <td>
+                <c:if test="${visit.billAvailable}">
+                    <a href="/visit/pdf?visitId=${visit.id}">
+                        <span class="material-icons">request_quote</span>
+                    </a>
+                </c:if>
+            </td>
         </tr>
     </c:forEach>
     </tbody>
