@@ -31,6 +31,8 @@ public class Visit {
 
     private boolean canceled;
 
+    private boolean billAvailable;
+
     public long getId() {
         return id;
     }
@@ -93,5 +95,13 @@ public class Visit {
 
     public void setCanceled(boolean canceled) {
         this.canceled = canceled;
+    }
+
+    public boolean isBillAvailable() {
+        return billAvailable;
+    }
+
+    public void setBillAvailable(boolean billAvailable) {
+        this.billAvailable = billAvailable;
     }
 }

@@ -12,6 +12,8 @@ import skamila.kapj.domain.AppUserRole;
 import skamila.kapj.domain.Visit;
 import skamila.kapj.service.AppUserRoleService;
 import skamila.kapj.service.AppUserService;
+import skamila.kapj.service.VisitService;
+import skamila.kapj.utils.AppUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -21,15 +23,17 @@ public class VisitController {
 
     private AppUserService appUserService;
     private AppUserRoleService appUserRoleService;
+    private VisitService visitService;
 
     @Autowired
-    public VisitController(AppUserService appUserService, AppUserRoleService appUserRoleService) {
+    public VisitController(AppUserService appUserService, AppUserRoleService appUserRoleService, VisitService visitService) {
         this.appUserService = appUserService;
         this.appUserRoleService = appUserRoleService;
+        this.visitService = visitService;
     }
 
     @RequestMapping(value = "/newVisit")
-    public String addVisit(@Valid @ModelAttribute("appUser") Visit visit, BindingResult result, Model model, HttpServletRequest request) {
+    public String newVisit(@Valid @ModelAttribute("appUser") Visit visit, BindingResult result, Model model, HttpServletRequest request) {
         model.addAttribute("visit", new Visit());
         AppUserRole doctorRole = appUserRoleService.getAppUserRole("ROLE_DOCTOR");
         model.addAttribute("doctorsList",  appUserService.findByRole(doctorRole));
@@ -37,8 +41,11 @@ public class VisitController {
     }
 
     @RequestMapping(value = "/addVisit", method = RequestMethod.POST)
-    public String addPatient(@Valid @ModelAttribute("visit") Visit visit, BindingResult result, Model model, HttpServletRequest request) {
-        System.out.println("Wizyta! " + visit);
+    public String addVisit(@Valid @ModelAttribute("visit") Visit visit, BindingResult result, Model model, HttpServletRequest request) {
+        AppUser currentUser = appUserService.findByLogin(AppUtils.getUserLogin());
+        visit.setPatient(currentUser);
+        visit.setPrice(40);
+        visitService.addVisit(visit);
         return "newVisit";
     }
 
