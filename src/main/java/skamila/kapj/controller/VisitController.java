@@ -20,6 +20,8 @@ import skamila.kapj.utils.AppUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/visit")
@@ -88,5 +90,19 @@ public class VisitController {
     public String confirmVisit(@RequestParam("visitId") Long visitId) {
         visitService.confirmVisit(visitId);
         return "visits";
+    }
+
+    private String choiceView() {
+        AppUser currentUser = appUserService.findByLogin(AppUtils.getUserLogin());
+        List<String> roles = currentUser.getAppUserRole().stream().map(role -> role.getRole()).collect(Collectors.toList());
+        if (roles.contains("ROLE_ADMIN")) {
+            return "/visit/admin";
+        } else if (roles.contains("ROLE_DOCTOR")) {
+            return "/visit/doctor";
+        } else if (roles.contains("ROLE_PATIENT")) {
+            return "/visit/my";
+        } else {
+            return "/";
+        }
     }
 }
