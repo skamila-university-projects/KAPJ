@@ -20,7 +20,7 @@ public class AppUser {
 
     @NotNull
     @Column(unique = true)
-    @Size(min=3, max=15, message = "{error.length.name}")
+    @Size(min = 3, max = 15, message = "{error.length.name}")
     private String login;
 
     @JsonIgnore
@@ -30,12 +30,12 @@ public class AppUser {
     private boolean enabled;
 
     @NotNull
-    @Size(min=3, max=30, message = "{error.length.name}")
+    @Size(min = 3, max = 30, message = "{error.length.name}")
     @Column(name = "firstName", nullable = false)
     private String firstName;
 
     @NotNull
-    @Size(min=3, max=30, message = "{error.length.name}")
+    @Size(min = 3, max = 30, message = "{error.length.name}")
     private String lastName;
 
     @NotNull

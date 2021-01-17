@@ -43,10 +43,11 @@
     <div class="form-group">
         <form:label path="time"><spring:message code="chooseDate"/></form:label>
         <div class="input-group date" id="datetimepicker" data-target-input="nearest">
-            <span class="input-group-addon material-icons" style="color: #17A2B8" data-target="#datetimepicker" data-toggle="datetimepicker"
+            <span class="input-group-addon material-icons" style="color: #17A2B8" data-target="#datetimepicker"
+                  data-toggle="datetimepicker"
                   class="material-icons">today</span>
             <form:input path="time" class="form-control datetimepicker-input"
-                   data-target="#datetimepicker"/>
+                        data-target="#datetimepicker"/>
         </div>
         <form:errors path="time" class="form-text text-muted"/>
     </div>

@@ -24,7 +24,8 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse">
-        <a class="navbar-brand" href="/" style="color: #17A2B8; font-weight: bold"><spring:message code="title.doctor24"/></a>
+        <a class="navbar-brand" href="/" style="color: #17A2B8; font-weight: bold"><spring:message
+                code="title.doctor24"/></a>
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
             <%-- Pacjeńci --%>
@@ -79,9 +80,15 @@
         <ul class="navbar-nav navbar-righ">
             <div class="form-row">
                 <div class="col">
-                    <a class="language-button" href="?lang=pl"><button type="button" class="btn btn-outline-info btn-sm">PL</button></a>
-                    <a class="language-button" href="?lang=en"><button type="button" class="btn btn-outline-info btn-sm">EN</button></a>
-                    <a class="language-button" href="?lang=is"><button type="button" class="btn btn-outline-info btn-sm">IS</button></a>
+                    <a class="language-button" href="?lang=pl">
+                        <button type="button" class="btn btn-outline-info btn-sm">PL</button>
+                    </a>
+                    <a class="language-button" href="?lang=en">
+                        <button type="button" class="btn btn-outline-info btn-sm">EN</button>
+                    </a>
+                    <a class="language-button" href="?lang=is">
+                        <button type="button" class="btn btn-outline-info btn-sm">IS</button>
+                    </a>
                 </div>
             </div>
         </ul>

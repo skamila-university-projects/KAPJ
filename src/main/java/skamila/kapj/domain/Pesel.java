@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Entity
-@Table(name="pesel")
+@Table(name = "pesel")
 public class Pesel {
 
     @Id

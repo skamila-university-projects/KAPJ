@@ -8,7 +8,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import skamila.kapj.dao.AppUserRoleRepository;
 import skamila.kapj.domain.AppUser;
 import skamila.kapj.service.AppUserRoleService;
 import skamila.kapj.service.AppUserService;
@@ -36,7 +35,7 @@ public class AdminController {
     @RequestMapping(value = "/register")
     public String register(@Valid @ModelAttribute("appUser") AppUser appUser, BindingResult result, Model model, HttpServletRequest request) {
         model.addAttribute("appUser", new AppUser());
-        model.addAttribute("appUserRoleList",  appUserRoleService.listAppUserRole());
+        model.addAttribute("appUserRoleList", appUserRoleService.listAppUserRole());
         return "addUser";
     }
 

@@ -16,27 +16,27 @@
     </definition>
 
     <definition name="login" extends="base.definition">
-        <put-attribute name="body" value="/view/login.jsp" />
+        <put-attribute name="body" value="/view/login.jsp"/>
     </definition>
 
     <definition name="accessDenied" extends="base.definition">
-        <put-attribute name="body" value="/view/accessDenied.jsp" />
+        <put-attribute name="body" value="/view/accessDenied.jsp"/>
     </definition>
 
     <definition name="addUser" extends="base.definition">
-        <put-attribute name="body" value="/view/addUser.jsp" />
+        <put-attribute name="body" value="/view/addUser.jsp"/>
     </definition>
 
     <definition name="empty" extends="base.definition">
-        <put-attribute name="body" value="/view/empty.jsp" />
+        <put-attribute name="body" value="/view/empty.jsp"/>
     </definition>
 
     <definition name="newVisit" extends="base.definition">
-        <put-attribute name="body" value="/view/newVisit.jsp" />
+        <put-attribute name="body" value="/view/newVisit.jsp"/>
     </definition>
 
     <definition name="visits" extends="base.definition">
-        <put-attribute name="body" value="/view/visits.jsp" />
+        <put-attribute name="body" value="/view/visits.jsp"/>
     </definition>
 
 </tiles-definitions>

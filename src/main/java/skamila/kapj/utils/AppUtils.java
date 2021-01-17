@@ -20,7 +20,7 @@ public class AppUtils {
 
     public static boolean isAnonymousUser() {
         List<String> auths = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(auth -> ((GrantedAuthority) auth).getAuthority()).collect(Collectors.toList());
-        if(auths.contains("ROLE_ANONYMOUS")) {
+        if (auths.contains("ROLE_ANONYMOUS")) {
             return true;
         } else {
             return false;

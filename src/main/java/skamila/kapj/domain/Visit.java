@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="visit")
+@Table(name = "visit")
 public class Visit {
 
     @Id

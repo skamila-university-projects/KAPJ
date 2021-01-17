@@ -1,6 +1,5 @@
 package skamila.kapj.service;
 
-import skamila.kapj.domain.AppUser;
 import skamila.kapj.domain.Visit;
 
 import javax.servlet.http.HttpServletResponse;

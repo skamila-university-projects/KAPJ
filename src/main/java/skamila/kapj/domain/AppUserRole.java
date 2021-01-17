@@ -5,16 +5,16 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name="app_user_role")
+@Table(name = "app_user_role")
 public class AppUserRole {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)
     @NotNull
-    @Size(min=2, max=15, message = "{error.length.name}")
+    @Size(min = 2, max = 15, message = "{error.length.name}")
     private String role;
 
     public Long getId() {
