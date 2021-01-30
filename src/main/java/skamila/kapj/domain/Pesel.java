@@ -16,6 +16,13 @@ public class Pesel {
     @Pattern(regexp = "^[0-9]{11}$", message = "{error.pesel.invalid}")
     private String PESEL;
 
+    public Pesel() {
+    }
+
+    public Pesel(String PESEL) {
+        this.PESEL = PESEL;
+    }
+
     public long getId() {
         return id;
     }

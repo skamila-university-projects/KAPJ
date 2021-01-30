@@ -40,7 +40,7 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/addPatient", method = RequestMethod.POST)
-    public String addPatient(@Valid @ModelAttribute("appUser") AppUser appUser, BindingResult result, Model model, HttpServletRequest request) {
+    public String addAppUser(@Valid @ModelAttribute("appUser") AppUser appUser, BindingResult result, Model model, HttpServletRequest request) {
         appUserValidator.validate(appUser, result);
         if (result.getErrorCount() == 0) {
             appUserService.addAppUser(appUser);
