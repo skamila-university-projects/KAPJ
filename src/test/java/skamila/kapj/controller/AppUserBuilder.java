@@ -68,4 +68,9 @@ public class AppUserBuilder {
         return this;
     }
 
+    public AppUserBuilder withToken(String token) {
+        appUser.setToken(token);
+        return this;
+    }
+
 }

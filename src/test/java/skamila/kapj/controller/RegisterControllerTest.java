@@ -1,6 +1,7 @@
 package skamila.kapj.controller;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.ui.Model;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -8,12 +9,12 @@ import org.springframework.validation.BindingResult;
 import skamila.kapj.dao.AppUserRepository;
 import skamila.kapj.dao.AppUserRoleRepository;
 import skamila.kapj.domain.AppUser;
+import skamila.kapj.domain.AppUserRole;
 import skamila.kapj.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class RegisterControllerTest {
@@ -31,7 +32,7 @@ class RegisterControllerTest {
     void activateAccountThatIsNotActive() {
         // given
         String token = "token";
-        AppUser appUser = createUserWithNotActiveAccount(token);
+        AppUser appUser = new AppUserBuilder().withToken(token).withEnabled(false).build();
         registerController.activateAccount(token);
         when(appUserRepositoryMock.findByToken(token)).thenReturn(appUser);
         // when
@@ -44,7 +45,7 @@ class RegisterControllerTest {
     void activateAccountThatIsActive() {
         // given
         String token = "token";
-        AppUser appUser = createUserWithActiveAccount(token);
+        AppUser appUser = new AppUserBuilder().withToken(token).withEnabled(true).build();
         registerController.activateAccount(token);
         when(appUserRepositoryMock.findByToken(token)).thenReturn(appUser);
         // when
@@ -53,17 +54,45 @@ class RegisterControllerTest {
         assertTrue(appUser.isEnabled());
     }
 
-    private AppUser createUserWithNotActiveAccount(String token) {
-        AppUser appUser = new AppUser();
-        appUser.setToken(token);
-        return appUser;
+    @Test
+    void successfulAddPatient() {
+        // given
+        String role = "ROLE_PATIENT";
+        AppUser appUser = new AppUserBuilder().withLogin("login").withPassword("password")
+                .withFirstName("Jan").withLastName("Kowalski").withPhoneNumber("+48-000-000-000")
+                .withPesel("000000000").withEmail("mail@mail.com").build();
+        BindingResult bindingResult = new BeanPropertyBindingResult(appUser, "appUser");
+        AppUserRole appUserRole = new AppUserRole();
+        appUserRole.setRole(role);
+        when(appUserRoleRepositoryMock.findByRole(role)).thenReturn(appUserRole);
+        when(reCaptchaServiceMock.verify(any())).thenReturn(true);
+        // when
+        String redirect = registerController.addPatient(appUser, bindingResult, mock(Model.class), mock(HttpServletRequest.class));
+        // then
+        boolean isPatientRole = appUser.getAppUserRole().stream().anyMatch(userRole -> userRole.equals(appUserRole));
+        assertTrue(isPatientRole);
+        assertFalse(appUser.isEnabled());
+        verify(appUserRepositoryMock).save(appUser);
+        assertEquals("redirect:register.html", redirect);
     }
 
-    private AppUser createUserWithActiveAccount(String token) {
-        AppUser appUser = new AppUser();
-        appUser.setToken(token);
-        appUser.setEnabled(true);
-        return appUser;
+    @Test
+    void unsuccessfulAddPatientReCaptchaFailed() {
+        // given
+        String role = "ROLE_PATIENT";
+        AppUser appUser = new AppUserBuilder().withLogin("login").withPassword("password")
+                .withFirstName("Jan").withLastName("Kowalski").withPhoneNumber("+48-000-000-000")
+                .withPesel("000000000").withEmail("mail@mail.com").build();
+        BindingResult bindingResult = new BeanPropertyBindingResult(appUser, "appUser");
+        AppUserRole appUserRole = new AppUserRole();
+        appUserRole.setRole(role);
+        when(appUserRoleRepositoryMock.findByRole(role)).thenReturn(appUserRole);
+        when(reCaptchaServiceMock.verify(any())).thenReturn(false);
+        // when
+        String redirect = registerController.addPatient(appUser, bindingResult, mock(Model.class), mock(HttpServletRequest.class));
+        // then
+        verify(appUserRepositoryMock, Mockito.never()).save(appUser);
+        assertEquals("register", redirect);
     }
 
 }
