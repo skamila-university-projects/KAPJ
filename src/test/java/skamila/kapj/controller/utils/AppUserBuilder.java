@@ -1,4 +1,4 @@
-package skamila.kapj.controller;
+package skamila.kapj.controller.utils;
 
 import skamila.kapj.domain.AppUser;
 import skamila.kapj.domain.AppUserRole;

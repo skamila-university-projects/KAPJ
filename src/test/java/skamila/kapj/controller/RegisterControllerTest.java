@@ -6,6 +6,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.ui.Model;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
+import skamila.kapj.controller.utils.AppUserBuilder;
 import skamila.kapj.dao.AppUserRepository;
 import skamila.kapj.dao.AppUserRoleRepository;
 import skamila.kapj.domain.AppUser;
