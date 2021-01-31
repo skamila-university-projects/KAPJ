@@ -24,6 +24,11 @@ public class AppUserBuilder {
         return this;
     }
 
+    public AppUserBuilder withLogin(long id) {
+        appUser.setId(id);
+        return this;
+    }
+
     public AppUserBuilder withPassword(String password) {
         appUser.setPassword(password);
         return this;

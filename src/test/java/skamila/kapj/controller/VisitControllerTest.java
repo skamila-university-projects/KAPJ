@@ -18,6 +18,7 @@ import skamila.kapj.domain.Visit;
 import skamila.kapj.service.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +33,8 @@ class VisitControllerTest {
     private final AppUserService appUserService = new AppUserServiceImpl(appUserRepositoryMock, appUserRoleRepositoryMock);
     private final AppUserRoleService appUserRoleService = new AppUserRoleServiceImpl(appUserRoleRepositoryMock);
     private final VisitService visitService = new VisitServiceImpl(visitRepositoryMock);
-    private final PdfService pdfService = new PdfServiceImpl();
-    private final VisitController visitController = new VisitController(appUserService, appUserRoleService, visitService, pdfService);
+    private final PdfService pdfServiceMock = mock(PdfService.class);
+    private final VisitController visitController = new VisitController(appUserService, appUserRoleService, visitService, pdfServiceMock);
 
     @Test
     void addVisit() {
@@ -201,6 +202,68 @@ class VisitControllerTest {
         assertFalse(visit.isBillAvailable());
         assertTrue(visit.isCanceled());
         verify(visitRepositoryMock, Mockito.never()).save(visit);
+    }
+
+    @Test
+    void generatePdfForPatientWhenVisitIsConfirmed() {
+        // given
+        AppUser patient = new AppUserBuilder().withLogin("Jan").withFirstName("Jan").withLastName("Kowalski")
+                .withAppUserRole("ROLE_PATIENT").withLogin(1).build();
+        initCurrentUser(patient);
+        Visit visit = new VisitBuilder().withId(1).withConfirmed(true).withPatient(patient).build();
+        when(visitRepositoryMock.findById(visit.getId())).thenReturn(visit);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        // when
+        visitController.getPdf(visit.getId(), response);
+        // then
+        verify(pdfServiceMock).generatePdf(visit, response);
+    }
+
+    @Test
+    void generatePdfForDoctorWhenVisitIsConfirmed() {
+        // given
+        AppUser doctor = new AppUserBuilder().withLogin("doctor").withFirstName("Mr.").withLastName("Doctor")
+                .withAppUserRole("ROLE_DOCTOR").withLogin(1).build();
+        initCurrentUser(doctor);
+        Visit visit = new VisitBuilder().withId(1).withConfirmed(true).withPatient(new AppUser()).withDoctor(doctor).build();
+        when(visitRepositoryMock.findById(visit.getId())).thenReturn(visit);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        // when
+        visitController.getPdf(visit.getId(), response);
+        // then
+        verify(pdfServiceMock).generatePdf(visit, response);
+    }
+
+    @Test
+    void generatePdfForAdminWhenVisitIsConfirmed() {
+        // given
+        AppUser doctor = new AppUserBuilder().withLogin("admin").withFirstName("Admin").withLastName("Admin")
+                .withAppUserRole("ROLE_ADMIN").withLogin(1).build();
+        initCurrentUser(doctor);
+        Visit visit = new VisitBuilder().withId(1).withConfirmed(true).withPatient(new AppUser())
+                .withDoctor(new AppUser()).build();
+        when(visitRepositoryMock.findById(visit.getId())).thenReturn(visit);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        // when
+        visitController.getPdf(visit.getId(), response);
+        // then
+        verify(pdfServiceMock).generatePdf(visit, response);
+    }
+
+    @Test
+    void generatePdfForAdminWhenVisitIsNotConfirmed() {
+        // given
+        AppUser doctor = new AppUserBuilder().withLogin("admin").withFirstName("Admin").withLastName("Admin")
+                .withAppUserRole("ROLE_ADMIN").withLogin(1).build();
+        initCurrentUser(doctor);
+        Visit visit = new VisitBuilder().withId(1).withConfirmed(false).withPatient(new AppUser())
+                .withDoctor(new AppUser()).build();
+        when(visitRepositoryMock.findById(visit.getId())).thenReturn(visit);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        // when
+        visitController.getPdf(visit.getId(), response);
+        // then
+        verify(pdfServiceMock, Mockito.never()).generatePdf(visit, response);
     }
 
     private void initCurrentUser(AppUser appUser) {
