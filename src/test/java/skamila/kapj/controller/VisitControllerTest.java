@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class VisitControllerTest {
@@ -38,13 +37,11 @@ class VisitControllerTest {
     @Test
     void addVisit() {
         // given
-        AuthenticationUtils authenticationUtils = new AuthenticationUtils();
-        authenticationUtils.initSecurityContextMock();
-        AppUser currentUser = authenticationUtils.getCurrentUser();
+        AppUser currentUser = new AppUserBuilder().withLogin("user").build();
+        initCurrentUser(currentUser);
         AppUser selectedDoctor = new AppUserBuilder().withFirstName("Mr.").withLastName("Doctor").build();
         Visit visit = new VisitBuilder().withDoctor(selectedDoctor).build();
         BindingResult bindingResult = new BeanPropertyBindingResult(visit, "visit");
-        when(appUserRepositoryMock.findByLogin(any())).thenReturn(currentUser);
         // when
         RedirectView redirectView = visitController.addVisit(visit, bindingResult, mock(Model.class), mock(HttpServletRequest.class));
         // then
@@ -75,12 +72,10 @@ class VisitControllerTest {
     void getDoctorVisits() {
         // given
         AppUser doctor = new AppUserBuilder().withFirstName("Mr.").withLastName("Doctor").build();
-        AuthenticationUtils authenticationUtils = new AuthenticationUtils(doctor);
-        authenticationUtils.initSecurityContextMock();
+        initCurrentUser(doctor);
         List<Visit> visits = new ArrayList<>();
         visits.add(new Visit());
         visits.add(new Visit());
-        when(appUserRepositoryMock.findByLogin(any())).thenReturn(doctor);
         Model model = new BindingAwareModelMap();
         when(visitRepositoryMock.findByDoctor(doctor)).thenReturn(visits);
         // when
@@ -95,12 +90,10 @@ class VisitControllerTest {
     void getVisits() {
         // given
         AppUser patient = new AppUserBuilder().withFirstName("Jan").withLastName("Kowalski").build();
-        AuthenticationUtils authenticationUtils = new AuthenticationUtils(patient);
-        authenticationUtils.initSecurityContextMock();
+        initCurrentUser(patient);
         List<Visit> visits = new ArrayList<>();
         visits.add(new Visit());
         visits.add(new Visit());
-        when(appUserRepositoryMock.findByLogin(any())).thenReturn(patient);
         Model model = new BindingAwareModelMap();
         when(visitRepositoryMock.findByPatient(patient)).thenReturn(visits);
         // when
@@ -115,9 +108,7 @@ class VisitControllerTest {
     void cancelVisitByAdminWhenVisitDoesNotExist() {
         // given
         AppUser admin = new AppUserBuilder().withLogin("admin").withAppUserRole("ROLE_ADMIN").build();
-        AuthenticationUtils authenticationUtils = new AuthenticationUtils(admin);
-        authenticationUtils.initSecurityContextMock();
-        when(appUserRepositoryMock.findByLogin(admin.getLogin())).thenReturn(admin);
+        initCurrentUser(admin);
         // when
         RedirectView redirectView = visitController.cancelVisit((long) 1);
         // then
@@ -129,9 +120,7 @@ class VisitControllerTest {
         // given
         AppUser admin = new AppUserBuilder().withLogin("Jan").withFirstName("Jan").withLastName("Kowalski")
                 .withAppUserRole("ROLE_ADMIN").build();
-        AuthenticationUtils authenticationUtils = new AuthenticationUtils(admin);
-        authenticationUtils.initSecurityContextMock();
-        when(appUserRepositoryMock.findByLogin(admin.getLogin())).thenReturn(admin);
+        initCurrentUser(admin);
         Visit visit = new VisitBuilder().withId(1).withCanceled(true).withBillAvailable(false).build();
         when(visitRepositoryMock.findById(visit.getId())).thenReturn(visit);
         // when
@@ -147,9 +136,7 @@ class VisitControllerTest {
         // given
         AppUser doctor = new AppUserBuilder().withLogin("Jan").withFirstName("Jan").withLastName("Kowalski")
                 .withAppUserRole("ROLE_DOCTOR").build();
-        AuthenticationUtils authenticationUtils = new AuthenticationUtils(doctor);
-        authenticationUtils.initSecurityContextMock();
-        when(appUserRepositoryMock.findByLogin(doctor.getLogin())).thenReturn(doctor);
+        initCurrentUser(doctor);
         Visit visit = new VisitBuilder().withId(1).withCanceled(false).withBillAvailable(false).build();
         when(visitRepositoryMock.findById(visit.getId())).thenReturn(visit);
         // when
@@ -165,9 +152,7 @@ class VisitControllerTest {
         // given
         AppUser patient = new AppUserBuilder().withLogin("Jan").withFirstName("Jan").withLastName("Kowalski")
                 .withAppUserRole("ROLE_PATIENT").build();
-        AuthenticationUtils authenticationUtils = new AuthenticationUtils(patient);
-        authenticationUtils.initSecurityContextMock();
-        when(appUserRepositoryMock.findByLogin(patient.getLogin())).thenReturn(patient);
+        initCurrentUser(patient);
         Visit visit = new VisitBuilder().withId(1).withCanceled(false).withBillAvailable(true).build();
         when(visitRepositoryMock.findById(visit.getId())).thenReturn(visit);
         // when
@@ -178,6 +163,10 @@ class VisitControllerTest {
         assertEquals(redirectView.getUrl(), "/visit/my");
     }
 
-
+    private void initCurrentUser(AppUser appUser) {
+        AuthenticationUtils authenticationUtils = new AuthenticationUtils(appUser);
+        authenticationUtils.initSecurityContextMock();
+        when(appUserRepositoryMock.findByLogin(appUser.getLogin())).thenReturn(appUser);
+    }
 
 }

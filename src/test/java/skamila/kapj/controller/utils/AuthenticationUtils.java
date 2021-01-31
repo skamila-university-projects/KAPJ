@@ -12,11 +12,6 @@ public class AuthenticationUtils {
 
     private final AppUser appUser;
 
-    public AuthenticationUtils() {
-        this.appUser = new AppUser();
-        this.appUser.setLogin("user");
-    }
-
     public AuthenticationUtils(AppUser appUser) {
         this.appUser = appUser;
     }
