@@ -70,8 +70,10 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public void activateAccount(String token) {
         AppUser user = appUserRepository.findByToken(token);
-        user.setEnabled(true);
-        appUserRepository.save(user);
+        if (user != null) {
+            user.setEnabled(true);
+            appUserRepository.save(user);
+        }
     }
 
     private String hashPassword(String password) {
