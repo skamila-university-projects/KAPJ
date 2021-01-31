@@ -63,9 +63,11 @@ public class VisitServiceImpl implements VisitService {
     @Override
     public void confirmVisit(long visitId) {
         Visit visit = visitRepository.findById(visitId);
-        visit.setConfirmed(true);
-        visit.setBillAvailable(true);
-        visitRepository.save(visit);
+        if (!visit.isCanceled()) {
+            visit.setConfirmed(true);
+            visit.setBillAvailable(true);
+            visitRepository.save(visit);
+        }
     }
 
 }

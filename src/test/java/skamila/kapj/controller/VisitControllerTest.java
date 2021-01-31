@@ -1,6 +1,7 @@
 package skamila.kapj.controller;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.ui.Model;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -129,6 +130,7 @@ class VisitControllerTest {
         assertTrue(visit.isCanceled());
         assertFalse(visit.isBillAvailable());
         assertEquals(redirectView.getUrl(), "/visit/admin");
+        verify(visitRepositoryMock).save(visit);
     }
 
     @Test
@@ -145,6 +147,7 @@ class VisitControllerTest {
         assertTrue(visit.isCanceled());
         assertFalse(visit.isBillAvailable());
         assertEquals(redirectView.getUrl(), "/visit/doctor");
+        verify(visitRepositoryMock).save(visit);
     }
 
     @Test
@@ -161,6 +164,43 @@ class VisitControllerTest {
         assertTrue(visit.isCanceled());
         assertFalse(visit.isBillAvailable());
         assertEquals(redirectView.getUrl(), "/visit/my");
+        verify(visitRepositoryMock).save(visit);
+    }
+
+    @Test
+    void confirmVisit() {
+        // given
+        AppUser doctor = new AppUserBuilder().withLogin("Jan").withFirstName("Jan").withLastName("Kowalski")
+                .withAppUserRole("ROLE_DOCTOR").build();
+        initCurrentUser(doctor);
+        Visit visit = new VisitBuilder().withId(1).withConfirmed(false).withCanceled(false).withBillAvailable(false).build();
+        when(visitRepositoryMock.findById(visit.getId())).thenReturn(visit);
+        // when
+        RedirectView redirectView = visitController.confirmVisit(visit.getId());
+        // then
+        assertEquals(redirectView.getUrl(), "/visit/doctor");
+        assertTrue(visit.isConfirmed());
+        assertTrue(visit.isBillAvailable());
+        assertFalse(visit.isCanceled());
+        verify(visitRepositoryMock).save(visit);
+    }
+
+    @Test
+    void confirmVisitWhenVisitIsCanceled() {
+        // given
+        AppUser doctor = new AppUserBuilder().withLogin("Jan").withFirstName("Jan").withLastName("Kowalski")
+                .withAppUserRole("ROLE_DOCTOR").build();
+        initCurrentUser(doctor);
+        Visit visit = new VisitBuilder().withId(1).withConfirmed(false).withCanceled(true).withBillAvailable(false).build();
+        when(visitRepositoryMock.findById(visit.getId())).thenReturn(visit);
+        // when
+        RedirectView redirectView = visitController.confirmVisit(visit.getId());
+        // then
+        assertEquals(redirectView.getUrl(), "/visit/doctor");
+        assertFalse(visit.isConfirmed());
+        assertFalse(visit.isBillAvailable());
+        assertTrue(visit.isCanceled());
+        verify(visitRepositoryMock, Mockito.never()).save(visit);
     }
 
     private void initCurrentUser(AppUser appUser) {

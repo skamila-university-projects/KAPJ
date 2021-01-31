@@ -45,7 +45,7 @@ public class VisitBuilder {
     }
 
     public VisitBuilder withCanceled(boolean canceled) {
-        visit.setConfirmed(canceled);
+        visit.setCanceled(canceled);
         return this;
     }
 
