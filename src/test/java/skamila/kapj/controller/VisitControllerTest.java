@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -93,6 +93,7 @@ class VisitControllerTest {
 
     @Test
     void getVisits() {
+        // given
         AppUser patient = new AppUserBuilder().withFirstName("Jan").withLastName("Kowalski").build();
         AuthenticationUtils authenticationUtils = new AuthenticationUtils(patient);
         authenticationUtils.initSecurityContextMock();
@@ -109,5 +110,74 @@ class VisitControllerTest {
         assertEquals(visits, model.asMap().get("visits"));
         verify(visitRepositoryMock).findByPatient(patient);
     }
+
+    @Test
+    void cancelVisitByAdminWhenVisitDoesNotExist() {
+        // given
+        AppUser admin = new AppUserBuilder().withLogin("admin").withAppUserRole("ROLE_ADMIN").build();
+        AuthenticationUtils authenticationUtils = new AuthenticationUtils(admin);
+        authenticationUtils.initSecurityContextMock();
+        when(appUserRepositoryMock.findByLogin(admin.getLogin())).thenReturn(admin);
+        // when
+        RedirectView redirectView = visitController.cancelVisit((long) 1);
+        // then
+        assertEquals(redirectView.getUrl(), "/visit/admin");
+    }
+
+    @Test
+    void cancelVisitByAdminWhenVisitIsCancel() {
+        // given
+        AppUser admin = new AppUserBuilder().withLogin("Jan").withFirstName("Jan").withLastName("Kowalski")
+                .withAppUserRole("ROLE_ADMIN").build();
+        AuthenticationUtils authenticationUtils = new AuthenticationUtils(admin);
+        authenticationUtils.initSecurityContextMock();
+        when(appUserRepositoryMock.findByLogin(admin.getLogin())).thenReturn(admin);
+        Visit visit = new VisitBuilder().withId(1).withCanceled(true).withBillAvailable(false).build();
+        when(visitRepositoryMock.findById(visit.getId())).thenReturn(visit);
+        // when
+        RedirectView redirectView = visitController.cancelVisit(visit.getId());
+        // then
+        assertTrue(visit.isCanceled());
+        assertFalse(visit.isBillAvailable());
+        assertEquals(redirectView.getUrl(), "/visit/admin");
+    }
+
+    @Test
+    void cancelVisitByDoctorWhenBillIsNotAvailable() {
+        // given
+        AppUser doctor = new AppUserBuilder().withLogin("Jan").withFirstName("Jan").withLastName("Kowalski")
+                .withAppUserRole("ROLE_DOCTOR").build();
+        AuthenticationUtils authenticationUtils = new AuthenticationUtils(doctor);
+        authenticationUtils.initSecurityContextMock();
+        when(appUserRepositoryMock.findByLogin(doctor.getLogin())).thenReturn(doctor);
+        Visit visit = new VisitBuilder().withId(1).withCanceled(false).withBillAvailable(false).build();
+        when(visitRepositoryMock.findById(visit.getId())).thenReturn(visit);
+        // when
+        RedirectView redirectView = visitController.cancelVisit(visit.getId());
+        // then
+        assertTrue(visit.isCanceled());
+        assertFalse(visit.isBillAvailable());
+        assertEquals(redirectView.getUrl(), "/visit/doctor");
+    }
+
+    @Test
+    void cancelVisitByPatientWhenBillIsAvailable() {
+        // given
+        AppUser patient = new AppUserBuilder().withLogin("Jan").withFirstName("Jan").withLastName("Kowalski")
+                .withAppUserRole("ROLE_PATIENT").build();
+        AuthenticationUtils authenticationUtils = new AuthenticationUtils(patient);
+        authenticationUtils.initSecurityContextMock();
+        when(appUserRepositoryMock.findByLogin(patient.getLogin())).thenReturn(patient);
+        Visit visit = new VisitBuilder().withId(1).withCanceled(false).withBillAvailable(true).build();
+        when(visitRepositoryMock.findById(visit.getId())).thenReturn(visit);
+        // when
+        RedirectView redirectView = visitController.cancelVisit(visit.getId());
+        // then
+        assertTrue(visit.isCanceled());
+        assertFalse(visit.isBillAvailable());
+        assertEquals(redirectView.getUrl(), "/visit/my");
+    }
+
+
 
 }

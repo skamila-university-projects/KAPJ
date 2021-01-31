@@ -19,6 +19,11 @@ public class VisitBuilder {
         return this;
     }
 
+    public VisitBuilder withId(int id) {
+        visit.setId(id);
+        return this;
+    }
+
     public VisitBuilder withPatient(AppUser patient) {
         visit.setPatient(patient);
         return this;

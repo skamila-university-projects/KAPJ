@@ -3,6 +3,7 @@ package skamila.kapj.utils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import skamila.kapj.domain.AppUser;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +14,8 @@ public class AppUtils {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             return ((UserDetails) principal).getUsername();
+        } else if (principal instanceof AppUser) {
+            return ((AppUser) principal).getLogin();
         } else {
             return principal.toString();
         }
